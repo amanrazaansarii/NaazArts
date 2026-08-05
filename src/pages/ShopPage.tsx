@@ -69,7 +69,7 @@ export const ShopPage: React.FC = () => {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
-            justify: 'space-between',
+            justifyContent: 'space-between',
             alignItems: 'center',
             gap: '1rem',
             padding: '1rem 1.5rem',
