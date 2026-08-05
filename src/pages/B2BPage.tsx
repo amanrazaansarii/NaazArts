@@ -119,16 +119,16 @@ export const B2BPage: React.FC = () => {
                   <td style={{ padding: '1.1rem' }}>5 - 7 Business Days</td>
                 </tr>
                 <tr style={{ borderBottom: '1px solid var(--color-border)', backgroundColor: 'rgba(239, 224, 211, 0.55)' }}>
-                  <td style={{ padding: '1.1rem', fontWeight 700, color: 'var(--color-terracotta)' }}>B2B Tier 2 (50 - 200 units)</td>
-                  <td style={{ padding: '1.1rem', fontWeight 600 }}>52% Off Retail</td>
+                  <td style={{ padding: '1.1rem', fontWeight: 700, color: 'var(--color-terracotta)' }}>B2B Tier 2 (50 - 200 units)</td>
+                  <td style={{ padding: '1.1rem', fontWeight: 600 }}>52% Off Retail</td>
                   <td style={{ padding: '1.1rem', fontWeight: 700 }}>$8.50 / unit</td>
                   <td style={{ padding: '1.1rem' }}>Custom Color + Hand-Paint</td>
                   <td style={{ padding: '1.1rem' }}>7 - 10 Business Days</td>
                 </tr>
                 <tr>
                   <td style={{ padding: '1.1rem', fontWeight: 700, color: 'var(--color-primary)' }}>Volume Production (500+ units)</td>
-                  <td style={{ padding: '1.1rem', fontWeight 600 }}>Up to 60% Off</td>
-                  <td style={{ padding: '1.1rem', fontWeight 700 }}>Custom Quote</td>
+                  <td style={{ padding: '1.1rem', fontWeight: 600 }}>Up to 60% Off</td>
+                  <td style={{ padding: '1.1rem', fontWeight: 700 }}>Custom Quote</td>
                   <td style={{ padding: '1.1rem' }}>Custom Mold Debossing</td>
                   <td style={{ padding: '1.1rem' }}>2 - 3 Weeks Batch Pour</td>
                 </tr>
