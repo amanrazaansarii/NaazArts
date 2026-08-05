@@ -108,9 +108,9 @@ export const ShopPage: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <span style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', fontWeight: 600 }}>Sort By:</span>
             <select
+              className="select-custom"
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value as any)}
-              style={{ padding: '0.5rem 0.85rem', fontSize: '0.82rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', backgroundColor: 'white' }}
             >
               <option value="featured">Featured Batch</option>
               <option value="price-asc">Price: Low to High</option>

@@ -110,9 +110,10 @@ export const B2BInquiryModal: React.FC = () => {
                   Product Category
                 </label>
                 <select
+                  className="select-custom"
                   value={inquiryForm.productType}
                   onChange={(e) => setInquiryForm({ productType: e.target.value })}
-                  style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', backgroundColor: 'white' }}
+                  style={{ width: '100%' }}
                 >
                   <option value="Candle Jars & Vessels">Candle Jars & Vessels (Wax Safe)</option>
                   <option value="Trays & Catchalls">Trays & Catchalls</option>
@@ -127,9 +128,10 @@ export const B2BInquiryModal: React.FC = () => {
                   Estimated Quantity
                 </label>
                 <select
+                  className="select-custom"
                   value={inquiryForm.estimatedQuantity}
                   onChange={(e) => setInquiryForm({ estimatedQuantity: e.target.value })}
-                  style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', backgroundColor: 'white' }}
+                  style={{ width: '100%' }}
                 >
                   <option value="25-50 units">25 - 50 units</option>
                   <option value="50-100 units">50 - 100 units (Standard B2B Tier)</option>
