@@ -1,22 +1,17 @@
+'use client';
+
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ShoppingBag, Search, Menu, X, Sparkles, SlidersHorizontal } from 'lucide-react';
-import { useStore } from '../store/useStore';
+import { useStore } from '@/store/useStore';
 
-interface HeaderProps {
-  onNavigate: (page: 'home' | 'shop' | 'b2b' | 'about') => void;
-  activePage: string;
-}
-
-export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
+export const Header: React.FC = () => {
+  const pathname = usePathname();
   const { cart, openCart, toggleSearch, openInquiry } = useStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const totalCartCount = cart.reduce((total, item) => total + item.quantity, 0);
-
-  const handleNavClick = (page: 'home' | 'shop' | 'b2b' | 'about') => {
-    onNavigate(page);
-    setMobileMenuOpen(false);
-  };
 
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 100, backgroundColor: 'var(--color-bg)' }}>
@@ -62,9 +57,9 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
           </button>
 
           {/* Logo / Brand Name */}
-          <div
-            onClick={() => handleNavClick('home')}
-            style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
+          <Link
+            href="/"
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
           >
             <span
               style={{
@@ -90,42 +85,42 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
             >
               Handmade Concrete Decor
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Nav Items */}
           <nav className="desktop-nav" style={{ display: 'flex', gap: '2.2rem', alignItems: 'center' }}>
-            <button
-              onClick={() => handleNavClick('home')}
+            <Link
+              href="/"
               style={{
                 fontSize: '0.85rem',
-                fontWeight: activePage === 'home' ? 700 : 500,
-                color: activePage === 'home' ? 'var(--color-terracotta)' : 'var(--color-primary)',
+                fontWeight: pathname === '/' ? 700 : 500,
+                color: pathname === '/' ? 'var(--color-terracotta)' : 'var(--color-primary)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em'
               }}
             >
               Home
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleNavClick('shop')}
+            <Link
+              href="/shop"
               style={{
                 fontSize: '0.85rem',
-                fontWeight: activePage === 'shop' ? 700 : 500,
-                color: activePage === 'shop' ? 'var(--color-terracotta)' : 'var(--color-primary)',
+                fontWeight: pathname === '/shop' ? 700 : 500,
+                color: pathname === '/shop' ? 'var(--color-terracotta)' : 'var(--color-primary)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em'
               }}
             >
               Shop Catalog
-            </button>
+            </Link>
 
-            <button
-              onClick={() => handleNavClick('b2b')}
+            <Link
+              href="/b2b"
               style={{
                 fontSize: '0.85rem',
-                fontWeight: activePage === 'b2b' ? 700 : 500,
-                color: activePage === 'b2b' ? 'var(--color-terracotta)' : 'var(--color-primary)',
+                fontWeight: pathname === '/b2b' ? 700 : 500,
+                color: pathname === '/b2b' ? 'var(--color-terracotta)' : 'var(--color-primary)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
                 display: 'flex',
@@ -146,7 +141,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
               >
                 Candle Jars
               </span>
-            </button>
+            </Link>
 
             <button
               onClick={() => openInquiry('Custom Bulk Decor')}
@@ -165,18 +160,18 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
               <span>Custom & Bulk Quote</span>
             </button>
 
-            <button
-              onClick={() => handleNavClick('about')}
+            <Link
+              href="/about"
               style={{
                 fontSize: '0.85rem',
-                fontWeight: activePage === 'about' ? 700 : 500,
-                color: activePage === 'about' ? 'var(--color-terracotta)' : 'var(--color-primary)',
+                fontWeight: pathname === '/about' ? 700 : 500,
+                color: pathname === '/about' ? 'var(--color-terracotta)' : 'var(--color-primary)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em'
               }}
             >
               Our Story
-            </button>
+            </Link>
           </nav>
 
           {/* Action Controls (Search & Cart) */}
@@ -222,41 +217,45 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
               gap: '1rem'
             }}
           >
-            <button
-              onClick={() => handleNavClick('home')}
-              style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-primary)' }}
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-primary)' }}
             >
               Home
-            </button>
-            <button
-              onClick={() => handleNavClick('shop')}
-              style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-primary)' }}
+            </Link>
+            <Link
+              href="/shop"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-primary)' }}
             >
               Shop Catalog
-            </button>
-            <button
-              onClick={() => handleNavClick('b2b')}
-              style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-terracotta)' }}
+            </Link>
+            <Link
+              href="/b2b"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-terracotta)' }}
             >
               B2B & Wholesale Jars
-            </button>
+            </Link>
             <button
               onClick={() => { setMobileMenuOpen(false); openInquiry(); }}
               style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-primary)' }}
             >
               Custom & Bulk Order Quote
             </button>
-            <button
-              onClick={() => handleNavClick('about')}
-              style={{ textAlign: 'left', fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-primary)' }}
+            <Link
+              href="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-primary)' }}
             >
               Our Story
-            </button>
+            </Link>
           </div>
         )}
       </div>
 
-      <style>{`
+      <style jsx>{`
         @media (max-width: 900px) {
           .desktop-nav { display: none !important; }
         }

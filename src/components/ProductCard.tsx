@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
-import type { Product } from '../data/products';
+import type { Product } from '@/data/products';
 import { ImagePlaceholder } from './ImagePlaceholder';
-import { useStore } from '../store/useStore';
+import { useStore } from '@/store/useStore';
 import { Eye, Plus } from 'lucide-react';
 
 interface ProductCardProps {
@@ -13,7 +15,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div className="product-card">
-      {/* Image Placeholder (Blank space for image as requested) */}
+      {/* Image Placeholder */}
       <div className="product-card-img-wrap" onClick={() => setQuickViewProduct(product)} style={{ cursor: 'pointer' }}>
         {product.badge && (
           <span className={`product-badge ${product.b2bSuitable ? 'product-badge-b2b' : ''}`}>
@@ -41,7 +43,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         <p className="product-description">{product.shortDesc}</p>
 
-        {/* Finish / Swatches Available */}
+        {/* Finish Swatches */}
         <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.3rem', alignItems: 'center' }}>
           <span style={{ fontSize: '0.7rem', color: 'var(--color-text-light)' }}>Finishes:</span>
           {product.finishes.slice(0, 3).map((finish, idx) => (

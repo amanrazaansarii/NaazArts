@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useStore } from '../store/useStore';
+import { useStore } from '@/store/useStore';
 import { ImagePlaceholder } from './ImagePlaceholder';
 import { X, ShoppingBag, ShieldCheck, Flame, Layers } from 'lucide-react';
 

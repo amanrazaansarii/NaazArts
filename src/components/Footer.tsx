@@ -1,12 +1,11 @@
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
 import { Sparkles, Heart, Mail, Shield, Award } from 'lucide-react';
-import { useStore } from '../store/useStore';
+import { useStore } from '@/store/useStore';
 
-interface FooterProps {
-  onNavigate: (page: 'home' | 'shop' | 'b2b' | 'about') => void;
-}
-
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+export const Footer: React.FC = () => {
   const { openInquiry } = useStore();
 
   return (
@@ -58,11 +57,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             Shop & Explore
           </h4>
           <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.88rem' }}>
-            <li><button onClick={() => onNavigate('home')} style={{ color: 'var(--color-stone)' }}>Home</button></li>
-            <li><button onClick={() => onNavigate('shop')} style={{ color: 'var(--color-stone)' }}>All Products Catalog</button></li>
-            <li><button onClick={() => onNavigate('b2b')} style={{ color: 'var(--color-stone)' }}>Candle Makers & B2B Jars</button></li>
+            <li><Link href="/" style={{ color: 'var(--color-stone)' }}>Home</Link></li>
+            <li><Link href="/shop" style={{ color: 'var(--color-stone)' }}>All Products Catalog</Link></li>
+            <li><Link href="/b2b" style={{ color: 'var(--color-stone)' }}>Candle Makers & B2B Jars</Link></li>
             <li><button onClick={() => openInquiry()} style={{ color: 'var(--color-terracotta-light)', fontWeight: 600 }}>Request Bulk Quote</button></li>
-            <li><button onClick={() => onNavigate('about')} style={{ color: 'var(--color-stone)' }}>Our Story</button></li>
+            <li><Link href="/about" style={{ color: 'var(--color-stone)' }}>Our Story</Link></li>
           </ul>
         </div>
 

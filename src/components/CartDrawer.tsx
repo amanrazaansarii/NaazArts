@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useStore } from '../store/useStore';
+import { useStore } from '@/store/useStore';
 import { ImagePlaceholder } from './ImagePlaceholder';
 import { X, Trash2, ShoppingBag, ArrowRight, Truck, CheckCircle2 } from 'lucide-react';
 
@@ -185,13 +187,6 @@ export const CartDrawer: React.FC = () => {
           </div>
         )}
       </div>
-
-      <style>{`
-        @keyframes slideInRight {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-      `}</style>
     </div>
   );
 };

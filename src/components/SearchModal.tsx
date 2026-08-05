@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
-import { useStore } from '../store/useStore';
-import { PRODUCTS } from '../data/products';
+import { useStore } from '@/store/useStore';
+import { PRODUCTS } from '@/data/products';
 import { X, Search, Eye } from 'lucide-react';
 import { ImagePlaceholder } from './ImagePlaceholder';
 

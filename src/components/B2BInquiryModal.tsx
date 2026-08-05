@@ -1,21 +1,46 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useStore } from '../store/useStore';
+import { useStore } from '@/store/useStore';
 import { X, Send, CheckCircle, Factory } from 'lucide-react';
 
 export const B2BInquiryModal: React.FC = () => {
   const { isInquiryOpen, closeInquiry, inquiryForm, setInquiryForm, resetInquiryForm } = useStore();
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   if (!isInquiryOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      resetInquiryForm();
-      closeInquiry();
-    }, 2800);
+    setLoading(true);
+    setErrorMsg('');
+
+    try {
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inquiryForm)
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+        setTimeout(() => {
+          setSubmitted(false);
+          resetInquiryForm();
+          closeInquiry();
+        }, 3000);
+      } else {
+        setErrorMsg(data.error || 'Failed to submit quote inquiry.');
+      }
+    } catch (err: any) {
+      setErrorMsg('Network error. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,7 +58,7 @@ export const B2BInquiryModal: React.FC = () => {
             <CheckCircle size={56} color="var(--color-terracotta)" style={{ margin: '0 auto 1rem' }} />
             <h3 style={{ fontSize: '1.8rem', marginBottom: '0.5rem' }}>B2B Quote Request Received!</h3>
             <p style={{ color: 'var(--color-text-muted)', fontSize: '0.95rem' }}>
-              Thank you for reaching out to NaazArts. Our studio team will review your quantities and custom specs and get back to you with wholesale pricing within 24 hours.
+              Thank you for reaching out to NaazArts. Your inquiry has been saved to our database, and our studio team will get back to you with wholesale pricing within 24 hours.
             </p>
           </div>
         ) : (
@@ -49,6 +74,12 @@ export const B2BInquiryModal: React.FC = () => {
             <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', marginBottom: '1.5rem' }}>
               Are you a candle maker looking for custom vessels, or a business seeking hand-poured corporate gifts/decor? Fill out the details below for discounted volume rates.
             </p>
+
+            {errorMsg && (
+              <div style={{ padding: '0.8rem', backgroundColor: '#fee2e2', color: '#991b1b', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', fontSize: '0.85rem' }}>
+                {errorMsg}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
               <div style={{ gridColumn: 'span 1' }}>
@@ -154,9 +185,9 @@ export const B2BInquiryModal: React.FC = () => {
               </div>
 
               <div style={{ gridColumn: 'span 2', marginTop: '0.5rem' }}>
-                <button type="submit" className="btn btn-terracotta" style={{ width: '100%', padding: '0.85rem' }}>
+                <button type="submit" disabled={loading} className="btn btn-terracotta" style={{ width: '100%', padding: '0.85rem' }}>
                   <Send size={16} />
-                  <span>Submit B2B Quote Request</span>
+                  <span>{loading ? 'Submitting Inquiry...' : 'Submit B2B Quote Request'}</span>
                 </button>
               </div>
             </form>
