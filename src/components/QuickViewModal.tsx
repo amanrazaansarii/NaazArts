@@ -57,7 +57,7 @@ export const QuickViewModal: React.FC = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div>
               <span className="product-category">{quickViewProduct.categoryLabel}</span>
-              <h2 style={{ fontSize: '1.8rem', marginTop: '0.2rem' }}>{quickViewProduct.title}</h2>
+              <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-body)', fontWeight: 600, marginTop: '0.2rem' }}>{quickViewProduct.title}</h3>
             </div>
 
             {/* Pricing Section */}
