@@ -63,7 +63,7 @@ export const B2BPage: React.FC = () => {
               <Layers size={28} color="var(--color-terracotta)" style={{ marginBottom: '0.8rem' }} />
               <h3 style={{ fontSize: '1.2rem', marginBottom: '0.4rem' }}>Custom Color Palettes</h3>
               <p style={{ fontSize: '0.88rem', color: 'var(--color-text-muted)' }}>
-                Choose from Charcoal (#59564C), Terracotta (#98726F), Concrete Greige (#C2C0B1), Warm Sand (#EFE0D3), or custom marbled blends.
+                Choose from solid Charcoal, Terracotta Rose, Concrete Greige, Warm Sand, or custom marbled pigment blends.
               </p>
             </div>
 

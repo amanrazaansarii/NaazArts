@@ -146,7 +146,7 @@ export const B2BInquiryModal: React.FC = () => {
                   rows={3}
                   value={inquiryForm.customizationDetails}
                   onChange={(e) => setInquiryForm({ customizationDetails: e.target.value })}
-                  placeholder="Describe your color preferences (e.g. Marbled Rose #98726F + Sand #EFE0D3), hand-painted details, or wick size needed..."
+                  placeholder="Describe your color preferences (e.g. Marbled Rose + Warm Sand), hand-painted gold rim details, or wick size needed..."
                   style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)' }}
                 />
               </div>

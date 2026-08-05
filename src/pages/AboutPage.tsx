@@ -77,33 +77,37 @@ export const AboutPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Color Palette & Customizations */}
+        {/* Brand & Website Design System Palette */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center', marginBottom: '4rem' }}>
           <div>
             <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-terracotta)', fontWeight: 700 }}>
-              Curated Color Spectrum
+              Brand & UI Aesthetic System
             </span>
-            <h2 style={{ fontSize: '2.2rem', margin: '0.4rem 0 1rem' }}>Earthy Tone Palette & Hand-Painting</h2>
+            <h2 style={{ fontSize: '2.2rem', margin: '0.4rem 0 1rem' }}>Signature Website Color Palette</h2>
             <p style={{ color: 'var(--color-text-muted)', lineHeight: '1.7', fontSize: '0.95rem', marginBottom: '1.2rem' }}>
-              We formulate our concrete mixes using mineral pigments that create rich depth. Choose between sleek solid tones, marbled blends, or request custom hand-painted gold or oxide patterns.
+              The NaazArts digital experience is crafted using a curated, warm earthy color palette designed to evoke the organic warmth of hand-poured stone and clay.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                 <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#59564C', border: '1px solid var(--color-border)' }} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#59564C — Deep Charcoal & Earthy Slate</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#59564C — Earthy Charcoal (Primary UI Neutral)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                 <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#98726F', border: '1px solid var(--color-border)' }} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#98726F — Rose Clay & Terracotta Accent</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#98726F — Rose Clay (Accent & CTAs)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                 <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#C2C0B1', border: '1px solid var(--color-border)' }} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#C2C0B1 — Concrete Stone Mist</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#C2C0B1 — Concrete Stone Mist (Subtle Borders & Highlights)</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                 <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#EFE0D3', border: '1px solid var(--color-border)' }} />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#EFE0D3 — Warm Sand & Parchment Beige</span>
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#EFE0D3 — Warm Sand (Section Panels & Badges)</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                <span style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#FFFAF2', border: '1px solid var(--color-border)' }} />
+                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-primary)' }}>#FFFAF2 — Alabaster Cream (Main Website Background)</span>
               </div>
             </div>
           </div>

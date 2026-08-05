@@ -28,7 +28,7 @@ export const PRODUCTS: Product[] = [
     fullDesc: 'Crafted in small batches with intentional concrete density. Each jar undergoes a multi-step sanding and internal sealant process ensuring wax-safety and heat tolerance up to 250°F. Perfect for luxury candle brands and DIY pourers.',
     dimensions: '3.2" Diameter x 3.5" Height',
     weight: '340g',
-    finishes: ['Natural Charcoal (#59564C)', 'Rose Clay (#98726F)', 'Concrete Greige (#C2C0B1)', 'Warm Sand (#EFE0D3)'],
+    finishes: ['Natural Charcoal', 'Rose Terracotta', 'Concrete Greige', 'Warm Sand'],
     b2bSuitable: true,
     popularForCandles: true
   },
@@ -59,7 +59,7 @@ export const PRODUCTS: Product[] = [
     fullDesc: 'Features vertical micro-fluting for tactile depth. Comes with a matching concrete lid with rubber rim for snug closure. Popular as a high-end candle vessel for boutique brands.',
     dimensions: '3.5" D x 4.0" H',
     weight: '480g',
-    finishes: ['Rose Clay (#98726F)', 'Natural Charcoal', 'Warm Sand'],
+    finishes: ['Rose Terracotta', 'Natural Charcoal', 'Warm Sand', 'Hand-Painted Gold Rim'],
     b2bSuitable: true,
     popularForCandles: true
   },
@@ -90,7 +90,7 @@ export const PRODUCTS: Product[] = [
     fullDesc: 'An artistic focal point for any shelf or desk. Each piece features unique small-batch concrete bubble variations that celebrate raw, organic texture.',
     dimensions: '6.0" W x 7.2" H x 1.8" D',
     weight: '850g',
-    finishes: ['Warm Sand (#EFE0D3)', 'Rose Clay (#98726F)', 'Natural Charcoal'],
+    finishes: ['Warm Sand', 'Rose Terracotta', 'Natural Charcoal'],
     b2bSuitable: true
   },
   {
@@ -119,7 +119,7 @@ export const PRODUCTS: Product[] = [
     fullDesc: 'Features a wide rim drip-reservoir and non-scratch cork backing. Heat resistant and treated with natural mineral sealers.',
     dimensions: '5.2" Diameter x 1.2" Height',
     weight: '510g',
-    finishes: ['Natural Charcoal', 'Concrete Greige', 'Rose Clay'],
+    finishes: ['Natural Charcoal', 'Concrete Greige', 'Rose Terracotta'],
     b2bSuitable: true
   },
   {
