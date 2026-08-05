@@ -255,7 +255,7 @@ export const Header: React.FC = () => {
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         @media (max-width: 900px) {
           .desktop-nav { display: none !important; }
         }

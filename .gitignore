@@ -18,3 +18,7 @@ node_modules/
 # Logs
 *.log
 npm-debug.log*
+
+# TypeScript build cache
+*.tsbuildinfo
+

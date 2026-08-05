@@ -85,7 +85,7 @@ export default function B2BPage() {
                   <th style={{ padding: '1.1rem', fontWeight: 700, color: 'var(--color-primary)' }}>Discount Rate</th>
                   <th style={{ padding: '1.1rem', fontWeight: 700, color: 'var(--color-primary)' }}>Avg Vessel Unit Price</th>
                   <th style={{ padding: '1.1rem', fontWeight: 700, color: 'var(--color-primary)' }}>Customization Included</th>
-                  <th style={{ padding: '1.1rem', fontWeight 700, color: 'var(--color-primary)' }}>Lead Time</th>
+                  <th style={{ padding: '1.1rem', fontWeight: 700, color: 'var(--color-primary)' }}>Lead Time</th>
                 </tr>
               </thead>
               <tbody>
