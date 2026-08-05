@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { PRODUCTS, CATEGORIES } from '../data/products';
 import { ProductCard } from '../components/ProductCard';
 import { useStore } from '../store/useStore';
-import { Search, SlidersHorizontal, Package } from 'lucide-react';
+import { Search, Package } from 'lucide-react';
 
 export const ShopPage: React.FC = () => {
   const { activeCategory, setActiveCategory } = useStore();

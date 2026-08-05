@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/useStore';
-import { X, Send, CheckCircle, Factory, Sparkles } from 'lucide-react';
+import { X, Send, CheckCircle, Factory } from 'lucide-react';
 
 export const B2BInquiryModal: React.FC = () => {
   const { isInquiryOpen, closeInquiry, inquiryForm, setInquiryForm, resetInquiryForm } = useStore();

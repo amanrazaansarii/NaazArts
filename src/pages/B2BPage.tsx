@@ -3,7 +3,7 @@ import { PRODUCTS } from '../data/products';
 import { ProductCard } from '../components/ProductCard';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { useStore } from '../store/useStore';
-import { Flame, ShieldCheck, Layers, Award, SlidersHorizontal, Check, ArrowRight } from 'lucide-react';
+import { Flame, ShieldCheck, Layers, Award, SlidersHorizontal } from 'lucide-react';
 
 export const B2BPage: React.FC = () => {
   const { openInquiry } = useStore();

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImagePlaceholder } from '../components/ImagePlaceholder';
 import { useStore } from '../store/useStore';
-import { Heart, Sparkles, SlidersHorizontal, CheckCircle2 } from 'lucide-react';
+import { Sparkles, SlidersHorizontal } from 'lucide-react';
 
 export const AboutPage: React.FC = () => {
   const { openInquiry } = useStore();

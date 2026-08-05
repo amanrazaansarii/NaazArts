@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../store/useStore';
 import { ImagePlaceholder } from './ImagePlaceholder';
-import { X, Check, ShoppingBag, ShieldCheck, Flame, Layers } from 'lucide-react';
+import { X, ShoppingBag, ShieldCheck, Flame, Layers } from 'lucide-react';
 
 export const QuickViewModal: React.FC = () => {
   const { quickViewProduct, setQuickViewProduct, addToCart, openInquiry } = useStore();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Product } from '../data/products';
+import type { Product } from '../data/products';
 import { ImagePlaceholder } from './ImagePlaceholder';
 import { useStore } from '../store/useStore';
 import { Eye, Plus } from 'lucide-react';
@@ -9,7 +9,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { setQuickViewProduct, addToCart, openInquiry } = useStore();
+  const { setQuickViewProduct, addToCart } = useStore();
 
   return (
     <div className="product-card">
