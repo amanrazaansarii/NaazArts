@@ -50,16 +50,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <p style={{ color: 'var(--color-stone)', fontSize: '0.88rem', marginBottom: '1.2rem' }}>
             Pouring small batches with intentions is our core. Premium concrete trays, candle vessels, jars, vases, and custom DIY craft projects.
           </p>
-
-          {/* Brand Palette Swatch Bar */}
-          <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.7rem', color: 'var(--color-stone-light)' }}>UI Theme Palette:</span>
-            <span style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#59564C', border: '1px solid white' }} title="#59564C" />
-            <span style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#98726F', border: '1px solid white' }} title="#98726F" />
-            <span style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#C2C0B1', border: '1px solid white' }} title="#C2C0B1" />
-            <span style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#EFE0D3', border: '1px solid white' }} title="#EFE0D3" />
-            <span style={{ width: '16px', height: '16px', borderRadius: '50%', backgroundColor: '#FFFAF2', border: '1px solid white' }} title="#FFFAF2" />
-          </div>
         </div>
 
         {/* Quick Links */}

@@ -26,7 +26,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3rem', alignItems: 'center' }}>
           
           {/* Left Text Column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+          <div className="animate-fade-in-up" style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--color-sand)', padding: '0.4rem 0.9rem', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border-stone)', width: 'fit-content' }}>
               <Sparkles size={14} color="var(--color-terracotta)" />
               <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-primary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>

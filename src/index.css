@@ -1,16 +1,13 @@
 @charset "UTF-8";
 
 /* ==========================================================================
-   NaazArts — Design Tokens & Core Styles
-   Palette:
-     #59564C (Primary Dark Slate / Earthy Olive Charcoal)
-     #98726F (Rose Terracotta / Clay Accent)
-     #C2C0B1 (Concrete Stone Mist)
-     #EFE0D3 (Warm Sand / Beige)
+   NaazArts — Soothing & Premium Design Tokens & Animations
+   Theme Tokens:
+     #59564C (Primary Slate Charcoal)
+     #98726F (Rose Terracotta Accent)
+     #C2C0B1 (Stone Greige)
+     #EFE0D3 (Warm Sand Beige)
      #FFFAF2 (Alabaster Off-white Background)
-   Fonts:
-     Display/Heading: "The Seasons", "Cormorant Garamond", serif
-     Body/UI: "Josefin Sans", sans-serif
    ========================================================================== */
 
 :root {
@@ -21,41 +18,40 @@
   --color-terracotta-dark: #7f5c59;
   --color-terracotta-light: #b08c89;
   --color-stone: #C2C0B1;
-  --color-stone-light: #dbd9ce;
+  --color-stone-light: #e6e4dc;
   --color-sand: #EFE0D3;
-  --color-sand-light: #f7efe7;
+  --color-sand-light: #f9f4ee;
   --color-bg: #FFFAF2;
   --color-white: #FFFFFF;
   --color-card-bg: #FFFDF9;
   
   --color-text-main: #3d3b34;
   --color-text-muted: #6e6b60;
-  --color-text-light: #8e8b80;
-  --color-border: #e6e2d8;
-  --color-border-stone: #d4d1c4;
+  --color-text-light: #949185;
+  --color-border: #eae6dc;
+  --color-border-stone: #dad7cb;
 
   /* Fonts */
   --font-heading: 'The Seasons', 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Josefin Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Josefin Sans', system-ui, -apple-system, sans-serif;
 
-  /* Spacing & Layout */
-  --max-width: 1280px;
-  --header-height: 80px;
-  --announcement-height: 38px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(89, 86, 76, 0.05);
-  --shadow-md: 0 8px 24px rgba(89, 86, 76, 0.08);
-  --shadow-lg: 0 16px 36px rgba(89, 86, 76, 0.12);
-  --shadow-terracotta: 0 8px 20px rgba(152, 114, 111, 0.2);
+  /* Soft Shadows */
+  --shadow-sm: 0 4px 14px rgba(89, 86, 76, 0.04);
+  --shadow-md: 0 10px 28px rgba(89, 86, 76, 0.07);
+  --shadow-lg: 0 20px 45px rgba(89, 86, 76, 0.11);
+  --shadow-terracotta: 0 8px 24px rgba(152, 114, 111, 0.22);
 
-  /* Transitions */
-  --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Easing & Motion */
+  --ease-soothing: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.2s var(--ease-soothing);
+  --transition-normal: 0.38s var(--ease-soothing);
+  --transition-slow: 0.6s var(--ease-soothing);
 }
 
 /* Reset & Global Base */
@@ -74,7 +70,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text-main);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: 1.65;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -90,10 +86,10 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.01em;
 }
 
-h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); }
+h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); }
 h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
-h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
-h4 { font-size: 1.2rem; }
+h3 { font-size: clamp(1.25rem, 2.2vw, 1.75rem); }
+h4 { font-size: 1.15rem; }
 
 p {
   color: var(--color-text-muted);
@@ -115,16 +111,16 @@ button {
   background: none;
 }
 
-/* Layout Utilities */
+/* Layout Containers */
 .container {
   width: 90%;
-  max-width: var(--max-width);
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
 .section-padding {
-  padding: 5rem 0;
+  padding: 5.5rem 0;
 }
 
 .text-center { text-align: center; }
@@ -135,8 +131,8 @@ button {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  padding: 0.85rem 1.8rem;
-  font-size: 0.85rem;
+  padding: 0.85rem 1.9rem;
+  font-size: 0.82rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -181,16 +177,16 @@ button {
 }
 
 .btn-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.74rem;
 }
 
-/* Styled Image Placeholder (Clean blank space with dimension & concrete aesthetic indicator) */
+/* Soothing Image Placeholder */
 .image-placeholder {
   width: 100%;
   height: 100%;
   min-height: 220px;
-  background: linear-gradient(135deg, var(--color-sand) 0%, var(--color-stone-light) 100%);
+  background: linear-gradient(135deg, var(--color-sand-light) 0%, var(--color-stone-light) 100%);
   border: 1px dashed var(--color-border-stone);
   border-radius: var(--radius-sm);
   display: flex;
@@ -203,7 +199,7 @@ button {
   overflow: hidden;
   color: var(--color-primary);
   user-select: none;
-  transition: transform var(--transition-normal), border-color var(--transition-fast);
+  transition: transform var(--transition-normal), border-color var(--transition-fast), box-shadow var(--transition-normal);
 }
 
 .image-placeholder::before {
@@ -211,16 +207,25 @@ button {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background-image: radial-gradient(var(--color-stone) 1px, transparent 1px);
-  background-size: 16px 16px;
-  opacity: 0.35;
+  background-size: 18px 18px;
+  opacity: 0.28;
   pointer-events: none;
 }
 
+.image-placeholder:hover {
+  border-color: var(--color-terracotta);
+}
+
 .image-placeholder-icon {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   color: var(--color-terracotta);
-  opacity: 0.8;
+  opacity: 0.85;
+  transition: transform var(--transition-normal);
+}
+
+.image-placeholder:hover .image-placeholder-icon {
+  transform: scale(1.1);
 }
 
 .image-placeholder-text {
@@ -235,30 +240,30 @@ button {
 
 .image-placeholder-tag {
   font-size: 0.7rem;
-  background-color: rgba(255, 250, 242, 0.75);
-  padding: 0.2rem 0.6rem;
+  background-color: rgba(255, 250, 242, 0.85);
+  padding: 0.2rem 0.65rem;
   border-radius: var(--radius-full);
   color: var(--color-text-muted);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
   z-index: 1;
   border: 1px solid var(--color-border);
 }
 
-/* Product Card */
+/* Premium Soothing Product Cards */
 .product-card {
   background-color: var(--color-card-bg);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   box-shadow: var(--shadow-md);
-  border-color: var(--color-stone);
+  border-color: var(--color-terracotta-light);
 }
 
 .product-card-img-wrap {
@@ -270,8 +275,8 @@ button {
 
 .product-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   z-index: 2;
   background-color: var(--color-terracotta);
   color: var(--color-white);
@@ -281,14 +286,16 @@ button {
   letter-spacing: 0.08em;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-sm);
+  box-shadow: 0 2px 8px rgba(152, 114, 111, 0.3);
 }
 
 .product-badge-b2b {
   background-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(89, 86, 76, 0.3);
 }
 
 .product-card-body {
-  padding: 1.25rem;
+  padding: 1.3rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -305,19 +312,25 @@ button {
 
 .product-title {
   font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--color-primary);
   margin-bottom: 0.2rem;
+  transition: color var(--transition-fast);
+}
+
+.product-card:hover .product-title {
+  color: var(--color-terracotta-dark);
 }
 
 .product-description {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   color: var(--color-text-muted);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   flex-grow: 1;
+  line-height: 1.55;
 }
 
 .product-price-row {
@@ -325,12 +338,12 @@ button {
   align-items: center;
   justify-content: space-between;
   margin-top: 0.6rem;
-  padding-top: 0.6rem;
+  padding-top: 0.75rem;
   border-top: 1px dashed var(--color-border);
 }
 
 .product-price {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--color-primary);
 }
@@ -340,18 +353,28 @@ button {
   color: var(--color-text-light);
 }
 
-/* Modals & Overlay */
+/* Category Cards */
+.category-card {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+.category-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-terracotta) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Modals & Backdrop Blur */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(61, 59, 52, 0.55);
-  backdrop-filter: blur(4px);
+  background-color: rgba(61, 59, 52, 0.45);
+  backdrop-filter: blur(8px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  animation: fadeIn var(--transition-fast);
+  animation: fadeIn 0.28s var(--ease-soothing);
 }
 
 .modal-content {
@@ -362,23 +385,33 @@ button {
   max-width: 850px;
   max-height: 90vh;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 2.2rem;
   position: relative;
   box-shadow: var(--shadow-lg);
-  animation: slideUp var(--transition-normal);
+  animation: slideUp 0.35s var(--ease-soothing);
 }
 
+/* Smooth Entrance Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
+  from { transform: translateY(24px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Scrollbar Customization */
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s var(--ease-soothing) forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
