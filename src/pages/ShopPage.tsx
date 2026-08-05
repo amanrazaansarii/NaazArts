@@ -29,34 +29,35 @@ export const ShopPage: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '3rem 0 5rem' }}>
+    <div style={{ padding: '3.5rem 0 5rem' }}>
       <div className="container">
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
           <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-terracotta)', fontWeight: 700 }}>
             Small Batch Hand-Poured Catalog
           </span>
-          <h1 style={{ fontSize: '2.8rem', marginTop: '0.2rem' }}>Concrete Decor & Candle Vessels</h1>
-          <p style={{ maxWidth: '600px', margin: '0.5rem auto 0', color: 'var(--color-text-muted)' }}>
-            Each piece is crafted in small batches with intentional density, sealed for wax/water safety, and backed by retail and wholesale bulk pricing.
+          <h1 style={{ fontSize: 'clamp(2.4rem, 5vw, 3.8rem)', marginTop: '0.2rem' }}>Concrete Decor & Candle Vessels</h1>
+          <p style={{ maxWidth: '620px', margin: '0.6rem auto 0', color: 'var(--color-text-muted)', lineHeight: '1.7' }}>
+            Each piece is crafted in small batches with intentional concrete density, sealed for wax/water safety, and backed by retail and wholesale bulk pricing.
           </p>
         </div>
 
-        {/* Category Filter Tabs */}
-        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.6rem', marginBottom: '2.5rem' }}>
+        {/* Category Filter Pills */}
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.65rem', marginBottom: '2.8rem' }}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
               style={{
-                padding: '0.65rem 1.4rem',
-                fontSize: '0.85rem',
+                padding: '0.65rem 1.45rem',
+                fontSize: '0.82rem',
                 fontWeight: activeCategory === cat.id ? 700 : 500,
                 borderRadius: 'var(--radius-full)',
                 border: activeCategory === cat.id ? '2px solid var(--color-terracotta)' : '1px solid var(--color-border)',
                 backgroundColor: activeCategory === cat.id ? 'var(--color-terracotta)' : 'var(--color-bg)',
                 color: activeCategory === cat.id ? 'var(--color-white)' : 'var(--color-primary)',
-                transition: 'all var(--transition-fast)'
+                transition: 'all var(--transition-fast)',
+                boxShadow: activeCategory === cat.id ? 'var(--shadow-terracotta)' : 'none'
               }}
             >
               {cat.name}
@@ -71,16 +72,17 @@ export const ShopPage: React.FC = () => {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: '1rem',
-            padding: '1rem 1.5rem',
+            gap: '1.2rem',
+            padding: '1.1rem 1.5rem',
             backgroundColor: 'var(--color-sand)',
-            borderRadius: 'var(--radius-sm)',
+            borderRadius: 'var(--radius-md)',
             border: '1px solid var(--color-border)',
-            marginBottom: '2.5rem'
+            marginBottom: '3rem',
+            boxShadow: 'var(--shadow-sm)'
           }}
         >
           {/* Search Bar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', backgroundColor: 'white', padding: '0.45rem 0.9rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', minWidth: '260px', flexGrow: 1, maxWidth: '400px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', backgroundColor: 'white', padding: '0.5rem 0.95rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', minWidth: '240px', flexGrow: 1, maxWidth: '380px' }}>
             <Search size={16} color="var(--color-primary)" />
             <input
               type="text"
@@ -92,12 +94,12 @@ export const ShopPage: React.FC = () => {
           </div>
 
           {/* Checkbox for B2B only */}
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', fontWeight: 600, color: 'var(--color-primary)', cursor: 'pointer' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', fontSize: '0.84rem', fontWeight: 600, color: 'var(--color-primary)', cursor: 'pointer' }}>
             <input
               type="checkbox"
               checked={b2bOnly}
               onChange={(e) => setB2bOnly(e.target.checked)}
-              style={{ accentColor: 'var(--color-terracotta)' }}
+              style={{ accentColor: 'var(--color-terracotta)', width: '16px', height: '16px' }}
             />
             <span>Show B2B Candle Vessels & Bulk Suitable Only</span>
           </label>
@@ -108,7 +110,7 @@ export const ShopPage: React.FC = () => {
             <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value as any)}
-              style={{ padding: '0.45rem 0.8rem', fontSize: '0.82rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', backgroundColor: 'white' }}
+              style={{ padding: '0.5rem 0.85rem', fontSize: '0.82rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--color-border)', backgroundColor: 'white' }}
             >
               <option value="featured">Featured Batch</option>
               <option value="price-asc">Price: Low to High</option>
@@ -128,7 +130,7 @@ export const ShopPage: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2.2rem' }}>
             {filtered.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
