@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Naaz Arts</title>
+  <meta name="description" content="Get in touch for custom orders, wholesale inquiries, or workshop questions.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Naaz Arts</a>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="our-story.html">Our story</a>
+      <a href="shop.html">Custom</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+  </nav>
+
+  <header class="section" style="text-align:center;">
+    <span class="eyebrow">Contact</span>
+    <h1 style="font-size: clamp(1.8rem, 3vw, 2.4rem); margin-top: 6px;">Let's talk</h1>
+    <p class="lede" style="margin: 10px auto 0;">Custom orders, wholesale/bulk jars, workshop questions — reach out below.</p>
+  </header>
+
+  <section class="container" style="max-width: 520px; margin: 0 auto; padding-bottom: 64px;">
+    <!-- Replace this form's action with your form handler (Formspree, Getform, etc.)
+         or connect it to your email service before going live. -->
+    <form style="display:flex; flex-direction:column; gap:14px;">
+      <input type="text" placeholder="Your name" required
+        style="padding:12px 14px; border-radius:8px; border:1px solid var(--line); font-family:var(--font-body); background:var(--card);">
+      <input type="email" placeholder="Your email" required
+        style="padding:12px 14px; border-radius:8px; border:1px solid var(--line); font-family:var(--font-body); background:var(--card);">
+      <select style="padding:12px 14px; border-radius:8px; border:1px solid var(--line); font-family:var(--font-body); background:var(--card);">
+        <option>General inquiry</option>
+        <option>Custom order</option>
+        <option>Wholesale / bulk jars</option>
+        <option>Workshop question</option>
+      </select>
+      <textarea placeholder="Your message" rows="5" required
+        style="padding:12px 14px; border-radius:8px; border:1px solid var(--line); font-family:var(--font-body); background:var(--card); resize:vertical;"></textarea>
+      <button type="submit" class="btn btn-clay">Send message</button>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <span>&copy; <span id="year"></span> Naaz Arts</span>
+    <span>
+      <a href="contact.html">Wholesale</a>
+      <a href="contact.html">FAQ</a>
+      <a href="https://instagram.com/shop.naazarts" target="_blank" rel="noopener">Instagram</a>
+      <a href="contact.html">Contact</a>
+    </span>
+  </footer>
+
+  <script src="assets/script.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

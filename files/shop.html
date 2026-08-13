@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — Naaz Arts</title>
+  <meta name="description" content="Shop handmade concrete trays, vases, coasters, seasonal candles, starter kits, and wholesale candle jars.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Naaz Arts</a>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="shop.html" class="active">Shop</a>
+      <a href="workshops.html">Workshops</a>
+      <a href="our-story.html">Our story</a>
+      <a href="shop.html">Custom</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <header class="section" style="text-align:center; padding-bottom: 8px;">
+    <span class="eyebrow">Shop</span>
+    <h1 style="font-size: clamp(1.8rem, 3vw, 2.4rem); margin-top: 6px;">Shop the collection</h1>
+    <p class="lede" style="margin: 10px auto 0;">Every piece hand-cast, hand-sealed, one of a kind.</p>
+  </header>
+
+  <section class="container">
+    <!-- Filter pills — data-category must match the "category" field in assets/script.js -->
+    <div class="filter-row">
+      <button class="filter-pill active" data-category="All">All</button>
+      <button class="filter-pill" data-category="Premium trays">Premium trays</button>
+      <button class="filter-pill" data-category="Raw trays — DIY">Raw trays — DIY</button>
+      <button class="filter-pill" data-category="Vases">Vases</button>
+      <button class="filter-pill" data-category="Coasters">Coasters</button>
+      <button class="filter-pill" data-category="Candles — seasonal">Candles — seasonal</button>
+      <button class="filter-pill" data-category="Starter kits">Starter kits</button>
+      <button class="filter-pill" data-category="Wholesale jars">Wholesale jars</button>
+    </div>
+
+    <p class="results-count" id="resultCount">Showing <strong>18</strong> products</p>
+
+    <!-- Products are injected here by assets/script.js -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <p class="empty-state" id="noResults">No products in this category yet — check back soon.</p>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="workshop-banner">
+        <div>
+          <div class="wb-title">Not sure which to pick?</div>
+          <div class="wb-sub">DM us on Instagram or reach out for custom orders and bulk pricing.</div>
+        </div>
+        <a href="contact.html" class="btn btn-sage">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>&copy; <span id="year"></span> Naaz Arts</span>
+    <span>
+      <a href="contact.html">Wholesale</a>
+      <a href="contact.html">FAQ</a>
+      <a href="https://instagram.com/shop.naazarts" target="_blank" rel="noopener">Instagram</a>
+      <a href="contact.html">Contact</a>
+    </span>
+  </footer>
+
+  <script src="assets/script.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

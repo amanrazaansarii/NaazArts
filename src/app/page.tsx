@@ -1,229 +1,219 @@
-'use client';
-
-import React from 'react';
-import Link from 'next/link';
-import { PRODUCTS, CATEGORIES } from '@/data/products';
-import { ProductCard } from '@/components/ProductCard';
-import { ImagePlaceholder } from '@/components/ImagePlaceholder';
-import { useStore } from '@/store/useStore';
-import { Sparkles, ArrowRight, Flame, Layers, Award, SlidersHorizontal, Check } from 'lucide-react';
+import Link from "next/link";
+import { NewsletterForm } from "@/components/NewsletterForm";
 
 export default function HomePage() {
-  const { setActiveCategory, openInquiry } = useStore();
-
-  const featuredProducts = PRODUCTS.slice(0, 6);
-
   return (
-    <div>
-      {/* Hero Section */}
-      <section style={{ padding: '4rem 0 5rem', backgroundColor: 'var(--color-bg)', position: 'relative', overflow: 'hidden' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
-          
-          {/* Left Text Column */}
-          <div className="animate-fade-in-up" style={{ display: 'flex', flexDirection: 'column', gap: '1.4rem' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--color-sand)', padding: '0.45rem 1rem', borderRadius: 'var(--radius-full)', border: '1px solid var(--color-border-stone)', width: 'fit-content' }}>
-              <Sparkles size={14} color="var(--color-terracotta)" />
-              <span style={{ fontSize: '0.74rem', fontWeight: 600, color: 'var(--color-primary)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-                Hand-Poured with Intentions
-              </span>
-            </div>
-
-            <h1 style={{ fontSize: 'clamp(2.5rem, 5.2vw, 4.2rem)', color: 'var(--color-primary)', lineHeight: 1.15 }}>
-              Intention Molded in <span style={{ color: 'var(--color-terracotta)', fontStyle: 'italic' }}>Small Batch</span> Concrete
-            </h1>
-
-            <p style={{ fontSize: '1.05rem', color: 'var(--color-text-muted)', lineHeight: '1.75', maxWidth: '58ch' }}>
-              Premium concrete decor for home aesthetic lovers, candle makers, and art enthusiasts. Explore our collection of hand-poured trays, vessels, candle holders, vases, and DIY project kits.
-            </p>
-
-            {/* Target Persona Highlights Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.9rem', margin: '0.4rem 0' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.84rem', color: 'var(--color-primary)', fontWeight: 600 }}>
-                <Check size={16} color="var(--color-terracotta)" />
-                <span>Small Business B2B Wholesale</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.84rem', color: 'var(--color-primary)', fontWeight: 600 }}>
-                <Check size={16} color="var(--color-terracotta)" />
-                <span>Wax-Safe Candle Vessels</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.84rem', color: 'var(--color-primary)', fontWeight: 600 }}>
-                <Check size={16} color="var(--color-terracotta)" />
-                <span>Hand-Painted Customization</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.84rem', color: 'var(--color-primary)', fontWeight: 600 }}>
-                <Check size={16} color="var(--color-terracotta)" />
-                <span>Affordable Premium Quality</span>
-              </div>
-            </div>
-
-            {/* CTAs */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginTop: '0.6rem' }}>
-              <Link href="/shop" className="btn btn-primary">
-                <span>Explore Shop Catalog</span>
-                <ArrowRight size={16} />
-              </Link>
-
-              <Link href="/b2b" className="btn btn-terracotta">
-                <Flame size={16} />
-                <span>Candle Makers / B2B</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Hero Image Visual Space */}
-          <div style={{ position: 'relative' }}>
-            <ImagePlaceholder
-              label="NaazArts Signature Concrete Collection"
-              dimensions="1200 x 900 • Hero Visual Space"
-              aspectRatio="4 / 3"
-            />
-          </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Naaz Arts Workshops",
+            "image": "https://naazarts.com/workshop.jpg",
+            "description": "Learn to cast and paint your own concrete art in our offline workshops.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Your City",
+              "addressCountry": "IN"
+            }
+          }),
+        }}
+      />
+      {/* ============ HERO ============ */}
+      <header className="hero">
+        <div className="hero-inner">
+          <p className="eyebrow">Handmade concrete art</p>
+          <h1>Functional art for everyday spaces</h1>
+          <p className="lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
+            Functional art for the home — and for the hands that want to make it.
+          </p>
+          <Link href="/shop" className="btn btn-clay">
+            Shop the collection
+          </Link>
         </div>
-      </section>
+      </header>
 
-      {/* Category Showcase Section */}
-      <section className="section-padding" style={{ backgroundColor: 'var(--color-sand-light)', borderTop: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' }}>
+      {/* ============ CATEGORY TILES ============ */}
+      <section className="section">
         <div className="container">
-          <div className="text-center" style={{ marginBottom: '3.5rem' }}>
-            <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-terracotta)', fontWeight: 700 }}>
-              Curated Collections
-            </span>
-            <h2 style={{ marginTop: '0.3rem' }}>Explore Hand-Poured Categories</h2>
+          <div className="section-title">
+            <span className="eyebrow">Explore</span>
+            <h2>Every piece tells a small story</h2>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '1.6rem' }}>
-            {CATEGORIES.filter(c => c.id !== 'all').map((cat) => (
-              <Link
-                key={cat.id}
-                href="/shop"
-                onClick={() => setActiveCategory(cat.id)}
-                style={{
-                  backgroundColor: 'var(--color-card-bg)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-md)',
-                  padding: '1.4rem',
-                  cursor: 'pointer',
-                  textAlign: 'center',
-                  boxShadow: 'var(--shadow-sm)'
-                }}
-                className="category-card"
-              >
-                <div style={{ width: '100%', height: '145px', marginBottom: '1.2rem' }}>
-                  <ImagePlaceholder label={cat.name} dimensions="Category Space" />
-                </div>
-                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>{cat.name}</h3>
-                <span style={{ fontSize: '0.78rem', color: 'var(--color-terracotta)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
-                  <span>View Products</span>
-                  <ArrowRight size={12} />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bestseller Small Batch Drops */}
-      <section className="section-padding">
-        <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
-            <div>
-              <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-terracotta)', fontWeight: 700 }}>
-                Handmade In Small Batches
-              </span>
-              <h2 style={{ marginTop: '0.2rem' }}>Featured Concrete Creations</h2>
-            </div>
-
-            <Link href="/shop" className="btn btn-outline btn-sm">
-              <span>View Full Store Catalog</span>
-              <ArrowRight size={14} />
+          <div className="tile-grid">
+            <Link href="/shop" className="tile">
+              <div className="tile-icon">◐</div>
+              <div className="tile-label">Premium trays</div>
+            </Link>
+            <Link href="/shop" className="tile">
+              <div className="tile-icon">⌂</div>
+              <div className="tile-label">Vases</div>
+            </Link>
+            <Link href="/shop" className="tile">
+              <div className="tile-icon">✎</div>
+              <div className="tile-label">Raw trays — DIY</div>
+            </Link>
+            <Link href="/workshops" className="tile">
+              <div className="tile-icon">✦</div>
+              <div className="tile-label">Workshops</div>
             </Link>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* B2B & Wholesale Candle Maker Spotlight Banner */}
-      <section style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-sand-light)', padding: '5rem 0' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3.5rem', alignItems: 'center' }}>
-          
+      {/* ============ STORY TEASER ============ */}
+      <section className="section section-alt">
+        <div className="container story-split">
+          <div className="ph organic-frame"></div>
           <div>
-            <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.18em', color: 'var(--color-terracotta-light)', fontWeight: 700 }}>
-              B2B & Wholesale Supply
-            </span>
-            <h2 style={{ color: 'var(--color-sand)', fontSize: '2.4rem', margin: '0.4rem 0 1.2rem' }}>
-              Calling Candle Makers & Small Business Owners
+            <span className="eyebrow">Our story</span>
+            <h2 style={{ margin: "8px 0 12px" }}>
+              From a wedding gift to a whole new craft
             </h2>
-            <p style={{ color: 'var(--color-stone)', fontSize: '0.96rem', lineHeight: '1.75', marginBottom: '1.8rem', maxWidth: '56ch' }}>
-              Searching for premium yet affordable concrete jars for your candle line? NaazArts provides custom-poured, wax-sealed, and heat-resistant concrete vessels with volume bulk discounts starting at 50 units.
+            <p className="body-text" style={{ marginBottom: "14px" }}>
+              It started with a candle, made for a friend&apos;s wedding. Somewhere
+              between finding the right jar and falling back in love with
+              sculpture, this became something else entirely.
             </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '2rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', fontSize: '0.9rem', color: 'var(--color-sand-light)' }}>
-                <Flame size={16} color="var(--color-terracotta-light)" />
-                <span>Internal Wax-Safe Sealing (Heat Tested up to 250°F)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', fontSize: '0.9rem', color: 'var(--color-sand-light)' }}>
-                <Layers size={16} color="var(--color-terracotta-light)" />
-                <span>Custom Finishes (Solid Tones, Marbled, Hand-Painted Detailing)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', fontSize: '0.9rem', color: 'var(--color-sand-light)' }}>
-                <Award size={16} color="var(--color-terracotta-light)" />
-                <span>Bulk Wholesale Tier: Up to 60% discount on volume orders</span>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <Link href="/b2b" className="btn btn-terracotta">
-                <span>View B2B Wholesale Specs</span>
-              </Link>
-              <button onClick={() => openInquiry('Custom Bulk Decor')} className="btn btn-outline" style={{ color: 'var(--color-sand)', borderColor: 'var(--color-stone)' }}>
-                <SlidersHorizontal size={16} />
-                <span>Request Custom Bulk Quote</span>
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <ImagePlaceholder
-              label="B2B Candle Vessel Wholesale Batch"
-              dimensions="1000 x 800 • Concrete Jars View"
-              aspectRatio="4 / 3"
-            />
-          </div>
-
-        </div>
-      </section>
-
-      {/* Custom Order Request Section */}
-      <section className="section-padding" style={{ backgroundColor: 'var(--color-bg)' }}>
-        <div className="container" style={{ maxWidth: '820px' }}>
-          <div className="text-center" style={{ marginBottom: '2.2rem' }}>
-            <span style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: 'var(--color-terracotta)', fontWeight: 700 }}>
-              Customizations & Hand-Painted Orders
-            </span>
-            <h2 style={{ marginTop: '0.3rem' }}>Have a Unique Design or Bulk Order in Mind?</h2>
-            <p style={{ marginTop: '0.6rem', margin: '0.6rem auto 0' }}>
-              Whether you need hand-painted patterns, custom brand debossing, or specific color matching, send us your request below.
-            </p>
-          </div>
-
-          <div style={{ backgroundColor: 'var(--color-card-bg)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)', padding: '2.4rem', boxShadow: 'var(--shadow-sm)' }}>
-            <button
-              onClick={() => openInquiry()}
-              className="btn btn-terracotta"
-              style={{ width: '100%', padding: '1.15rem', fontSize: '0.95rem' }}
+            <Link
+              href="/our-story"
+              style={{ color: "var(--clay)", fontWeight: 600, fontSize: "0.85rem" }}
             >
-              <SlidersHorizontal size={18} />
-              <span>Open Custom & Wholesale Quote Request Form</span>
-            </button>
+              Read our story →
+            </Link>
           </div>
         </div>
       </section>
-    </div>
+
+      {/* ============ BEST SELLERS ============ */}
+      <section className="section">
+        <div className="container">
+          <div className="section-title">
+            <span className="eyebrow">Shop</span>
+            <h2>Best sellers</h2>
+          </div>
+          <div className="product-grid">
+            <div className="product-card">
+              <div className="product-thumb" style={{ background: "var(--tone-1)" }}>
+                <span className="badge badge-new">New</span>
+              </div>
+              <div className="product-name">Marble tray — sage</div>
+              <div className="product-cat">Premium tray</div>
+              <div className="product-price">$28</div>
+            </div>
+            <div className="product-card">
+              <div className="product-thumb" style={{ background: "var(--tone-2)" }}></div>
+              <div className="product-name">Earth-tone coaster set</div>
+              <div className="product-cat">Coasters</div>
+              <div className="product-price">$16</div>
+            </div>
+            <div className="product-card">
+              <div className="product-thumb" style={{ background: "var(--tone-3)" }}></div>
+              <div className="product-name">Pastel vase</div>
+              <div className="product-cat">Vases</div>
+              <div className="product-price">$34</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ THE PROCESS (Craftsmanship) ============ */}
+      <section className="section section-alt">
+        <div className="container story-split reverse">
+          <div className="ph organic-frame" style={{ background: "var(--sage)" }}></div>
+          <div>
+            <span className="eyebrow">The Process</span>
+            <h2 style={{ margin: "8px 0 12px" }}>
+              Cast by hand. Cured with patience.
+            </h2>
+            <p className="body-text" style={{ marginBottom: "14px" }}>
+              Every piece of Naaz Arts is mixed, poured, and sanded by hand in small batches. We embrace the tiny air bubbles and raw textures — the unmistakable marks of master-level craftsmanship and human touch.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ CARE & CRAFT ============ */}
+      <section className="section">
+        <div className="container">
+          <div className="section-title">
+            <span className="eyebrow">Care & Details</span>
+            <h2>Made for everyday use</h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "24px", textAlign: "center" }}>
+            <div style={{ background: "var(--card)", padding: "32px 24px", borderRadius: "var(--radius-card)", border: "1px solid var(--line)" }}>
+              <h3 style={{ marginBottom: "8px" }}>Water Resistant</h3>
+              <p className="body-text" style={{ fontSize: "0.85rem" }}>Sealed with natural, eco-friendly beeswax to repel water and resist stains.</p>
+            </div>
+            <div style={{ background: "var(--card)", padding: "32px 24px", borderRadius: "var(--radius-card)", border: "1px solid var(--line)" }}>
+              <h3 style={{ marginBottom: "8px" }}>Food Safe</h3>
+              <p className="body-text" style={{ fontSize: "0.85rem" }}>Our premium trays are safe for dry foods, fruits, and daily kitchen use.</p>
+            </div>
+            <div style={{ background: "var(--card)", padding: "32px 24px", borderRadius: "var(--radius-card)", border: "1px solid var(--line)" }}>
+              <h3 style={{ marginBottom: "8px" }}>Easy to Clean</h3>
+              <p className="body-text" style={{ fontSize: "0.85rem" }}>Simply wipe with a damp cloth. Avoid harsh chemicals or dishwasher use.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ WORKSHOP BANNER ============ */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="workshop-banner">
+            <div>
+              <div className="wb-title">Come make something with your hands</div>
+              <div className="wb-sub">Next workshop — trays and vase painting</div>
+            </div>
+            <Link href="/workshops" className="btn btn-sage">
+              Book a seat
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ INSTAGRAM ============ */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="container">
+          <div className="section-title" style={{ marginBottom: "20px" }}>
+            <h2 style={{ fontSize: "1.2rem" }}>Follow along</h2>
+          </div>
+          <div className="insta-strip">
+            <div style={{ background: "var(--tone-1)" }}></div>
+            <div style={{ background: "var(--tone-2)" }}></div>
+            <div style={{ background: "var(--tone-3)" }}></div>
+            <div style={{ background: "var(--tone-8)" }}></div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ TESTIMONIALS ============ */}
+      <section className="section">
+        <div className="container" style={{ textAlign: "center", maxWidth: "700px" }}>
+          <span className="eyebrow">Loved by hands across the world</span>
+          <h2 style={{ margin: "20px 0 32px", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.2rem, 3vw, 1.8rem)", color: "var(--ink-soft)" }}>
+            "A heavy, beautiful addition to my coffee table. You can feel the care poured into every corner."
+          </h2>
+          <div style={{ display: "flex", justifyContent: "center", gap: "12px", alignItems: "center" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--tone-4)" }}></div>
+            <span style={{ fontSize: "0.85rem", fontWeight: 600 }}>Sarah M.</span>
+            <span style={{ fontSize: "0.85rem", color: "var(--ink-faint)" }}>Verified Buyer</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ NEWSLETTER ============ */}
+      <section className="section section-alt">
+        <div className="container newsletter">
+          <h2 style={{ fontSize: "1.2rem" }}>Get first look at new drops</h2>
+          <p className="lede" style={{ margin: "8px auto 0" }}>
+            New designs, festive pieces, and workshop dates — straight to your inbox.
+          </p>
+          <NewsletterForm />
+        </div>
+      </section>
+    </>
   );
 }

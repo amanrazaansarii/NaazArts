@@ -30,6 +30,17 @@ declare module 'next/image' {
   export default Image;
 }
 
+declare module 'next/font/google' {
+  export function Fraunces(options?: any): any;
+  export function Karla(options?: any): any;
+  export function Inter(options?: any): any;
+  export function Geist(options?: any): any;
+  export function Outfit(options?: any): any;
+  export function Satoshi(options?: any): any;
+  const font: any;
+  export default font;
+}
+
 declare module 'next/server' {
   export class NextResponse {
     static json(body: any, init?: any): any;

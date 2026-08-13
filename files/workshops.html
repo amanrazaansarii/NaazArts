@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshops — Naaz Arts</title>
+  <meta name="description" content="Join a hands-on concrete art workshop — offline in-studio or online via Google Meet.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Naaz Arts</a>
+    <button class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="shop.html">Shop</a>
+      <a href="workshops.html" class="active">Workshops</a>
+      <a href="our-story.html">Our story</a>
+      <a href="shop.html">Custom</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Workshops</p>
+      <h1>Come make something with your hands</h1>
+      <p class="lede" style="margin-left:auto;margin-right:auto;">Hands-on concrete art sessions — no experience needed. Offline in-studio or online over Google Meet.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container" style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+
+      <div class="tile" style="text-align:left; padding: 28px;">
+        <span class="eyebrow">In person</span>
+        <h3 style="margin: 8px 0 10px; font-size: 1.15rem;">Offline Workshop — Tray &amp; Vase Painting</h3>
+        <p class="body-text" style="margin-bottom: 16px;">Paint your own tray and our brand new vase design, guided start to finish. Materials included.</p>
+        <p class="body-text" style="margin-bottom: 4px;"><strong>Date:</strong> [Add date]</p>
+        <p class="body-text" style="margin-bottom: 18px;"><strong>Location:</strong> [Add city / studio address]</p>
+        <a href="contact.html" class="btn btn-clay">Book a seat</a>
+      </div>
+
+      <div class="tile" style="text-align:left; padding: 28px;">
+        <span class="eyebrow">Online</span>
+        <h3 style="margin: 8px 0 10px; font-size: 1.15rem;">Online Workshop — via Google Meet</h3>
+        <p class="body-text" style="margin-bottom: 16px;">Learn concrete art from home, wherever you are. A materials kit ships to you ahead of the live session.</p>
+        <p class="body-text" style="margin-bottom: 18px;"><strong>Next session:</strong> [Add date]</p>
+        <a href="contact.html" class="btn btn-outline">Reserve your spot</a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section section-alt" style="text-align:center;">
+    <div class="container" style="max-width: 560px;">
+      <h2 style="font-size: 1.2rem; margin-bottom: 12px;">Questions before you book?</h2>
+      <p class="body-text" style="margin-bottom: 22px;">Group sizes, what to bring, refund policy — happy to walk you through it.</p>
+      <a href="contact.html" class="btn btn-sage">Get in touch</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>&copy; <span id="year"></span> Naaz Arts</span>
+    <span>
+      <a href="contact.html">Wholesale</a>
+      <a href="contact.html">FAQ</a>
+      <a href="https://instagram.com/shop.naazarts" target="_blank" rel="noopener">Instagram</a>
+      <a href="contact.html">Contact</a>
+    </span>
+  </footer>
+
+  <script src="assets/script.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
