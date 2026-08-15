@@ -23,6 +23,22 @@ export default function HomePage() {
       />
       {/* ============ HERO ============ */}
       <header className="hero">
+        <picture className="hero-bg">
+          <source
+            media="(max-width: 767px)"
+            srcSet="https://ik.imagekit.io/naazartstudio/ChatGPT%20Image%20Aug%2015,%202026,%2009_49_22%20PM.png"
+          />
+          <source
+            media="(min-width: 768px)"
+            srcSet="https://ik.imagekit.io/naazartstudio/ChatGPT%20Image%20Aug%2015,%202026,%2009_49_11%20PM.png"
+          />
+          <img
+            src="https://ik.imagekit.io/naazartstudio/ChatGPT%20Image%20Aug%2015,%202026,%2009_49_11%20PM.png"
+            alt="Naaz Arts - Functional handmade concrete art"
+            className="hero-bg-img"
+          />
+        </picture>
+        <div className="hero-overlay"></div>
         <div className="hero-inner">
           <p className="eyebrow">Handmade concrete art</p>
           <h1>Functional art for everyday spaces</h1>
@@ -66,7 +82,14 @@ export default function HomePage() {
       {/* ============ STORY TEASER ============ */}
       <section className="section section-alt">
         <div className="container story-split">
-          <div className="ph organic-frame"></div>
+          <img
+            src="https://ik.imagekit.io/naazartstudio/IMG_9594.jpeg?updatedAt=1786810792307"
+            alt="Naaz Arts story - Handmade candle and concrete vessel"
+            className="organic-frame"
+            width={340}
+            height={340}
+            loading="lazy"
+          />
           <div>
             <span className="eyebrow">Our story</span>
             <h2 style={{ margin: "8px 0 12px" }}>
@@ -122,7 +145,14 @@ export default function HomePage() {
       {/* ============ THE PROCESS (Craftsmanship) ============ */}
       <section className="section section-alt">
         <div className="container story-split reverse">
-          <div className="ph organic-frame" style={{ background: "var(--sage)" }}></div>
+          <img
+            src="https://ik.imagekit.io/naazartstudio/IMG_9446.jpeg?updatedAt=1786811427259"
+            alt="Naaz Arts craftsmanship and casting process"
+            className="organic-frame"
+            width={340}
+            height={340}
+            loading="lazy"
+          />
           <div>
             <span className="eyebrow">The Process</span>
             <h2 style={{ margin: "8px 0 12px" }}>
