@@ -30,10 +30,10 @@ export default function HomePage() {
           />
           <source
             media="(min-width: 768px)"
-            srcSet="https://ik.imagekit.io/naazartstudio/ChatGPT%20Image%20Aug%2015,%202026,%2009_49_11%20PM.png"
+            srcSet="https://ik.imagekit.io/naazartstudio/IMG_0747.png?updatedAt=1786817264435"
           />
           <img
-            src="https://ik.imagekit.io/naazartstudio/ChatGPT%20Image%20Aug%2015,%202026,%2009_49_11%20PM.png"
+            src="https://ik.imagekit.io/naazartstudio/IMG_0747.png?updatedAt=1786817264435"
             alt="Naaz Arts - Functional handmade concrete art"
             className="hero-bg-img"
           />
@@ -42,7 +42,7 @@ export default function HomePage() {
         <div className="hero-inner">
           <p className="eyebrow">Handmade concrete art</p>
           <h1>Functional art for everyday spaces</h1>
-          <p className="lede" style={{ marginLeft: "auto", marginRight: "auto" }}>
+          <p className="lede">
             Functional art for the home — and for the hands that want to make it.
           </p>
           <Link href="/shop" className="btn btn-clay">

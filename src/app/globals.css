@@ -279,9 +279,9 @@ h3 { font-size: 1.1rem; }
   min-height: calc(100dvh - 49px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding: 60px 20px;
+  padding: 40px 20px 48px;
   text-align: center;
   background: var(--bone-deep);
   position: sticky;
@@ -314,20 +314,6 @@ h3 { font-size: 1.1rem; }
   pointer-events: none;
 }
 
-@media (min-width: 720px) {
-  .hero {
-    min-height: calc(100dvh - 64px);
-    padding: 100px 32px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero {
-    min-height: calc(100dvh - 72px);
-    padding: 120px 32px;
-  }
-}
-
 @keyframes ambientBlobFloat {
   0%, 100% { transform: translateY(0) scale(1); }
   50% { transform: translateY(-8px) scale(1.02); }
@@ -351,14 +337,91 @@ h3 { font-size: 1.1rem; }
   will-change: transform;
 }
 
-@media (min-width: 720px) {
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero h1 {
+  margin-bottom: 12px;
+  font-size: clamp(1.85rem, 6.5vw, 2.4rem);
+}
+
+.hero .lede {
+  margin: 0 auto;
+  max-width: 320px;
+}
+
+.hero .btn {
+  margin-top: clamp(240px, 34vh, 320px);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: calc(100dvh - 64px);
+    padding: 80px 48px;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-overlay {
+    display: none;
+  }
+
   .hero::before {
     width: 380px; height: 380px;
     top: -120px; right: -100px;
   }
+
+  .hero-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    max-width: 450px;
+    text-align: left;
+    margin-bottom: 16px;
+  }
+
+  .hero .lede {
+    max-width: 400px;
+    margin: 0 0 32px 0;
+    text-align: left;
+  }
+
+  .hero .btn {
+    margin-top: 0;
+    align-self: flex-start;
+  }
 }
 
 @media (min-width: 1024px) {
+  .hero {
+    min-height: calc(100dvh - 72px);
+    padding: 100px 64px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 3.8vw, 3.2rem);
+    max-width: 540px;
+  }
+
+  .hero .lede {
+    max-width: 460px;
+  }
+
   .hero::before {
     width: 520px; height: 520px;
     top: -180px; right: -120px;
@@ -376,11 +439,6 @@ h3 { font-size: 1.1rem; }
     will-change: transform;
   }
 }
-
-.hero-inner { position: relative; z-index: 2; max-width: 640px; margin: 0 auto; }
-
-.hero h1 { margin-bottom: 16px; }
-.hero .lede { margin: 0 auto 30px; }
 
 /* ============================================
    SECTION SPACING
