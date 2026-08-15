@@ -61,15 +61,15 @@ export default function HomePage() {
           <div className="tile-grid">
             <Link href="/shop" className="tile">
               <div className="tile-icon">◐</div>
-              <div className="tile-label">Premium trays</div>
+              <div className="tile-label">Premium trays & jars</div>
             </Link>
             <Link href="/shop" className="tile">
               <div className="tile-icon">⌂</div>
-              <div className="tile-label">Vases</div>
+              <div className="tile-label">Hand-Painted</div>
             </Link>
             <Link href="/shop" className="tile">
               <div className="tile-icon">✎</div>
-              <div className="tile-label">Raw trays — DIY</div>
+              <div className="tile-label">DIY trays & Kits</div>
             </Link>
             <Link href="/workshops" className="tile">
               <div className="tile-icon">✦</div>
@@ -156,7 +156,7 @@ export default function HomePage() {
           <div>
             <span className="eyebrow">The Process</span>
             <h2 style={{ margin: "8px 0 12px" }}>
-              Cast by hand. Cured with patience.
+              Poured with intention. Cured with patience.
             </h2>
             <p className="body-text" style={{ marginBottom: "14px" }}>
               Every piece of Naaz Arts is mixed, poured, and sanded by hand in small batches. We embrace the tiny air bubbles and raw textures — the unmistakable marks of master-level craftsmanship and human touch.
