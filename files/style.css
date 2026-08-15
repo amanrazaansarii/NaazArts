@@ -243,11 +243,7 @@ h3 { font-size: 1.1rem; }
 }
 
 .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(247, 244, 239, 0.72) 0%, rgba(247, 244, 239, 0.6) 50%, rgba(247, 244, 239, 0.78) 100%);
-  z-index: 1;
-  pointer-events: none;
+  display: none;
 }
 
 .hero::before {
@@ -294,10 +290,6 @@ h3 { font-size: 1.1rem; }
     justify-content: center;
     align-items: flex-start;
     text-align: left;
-  }
-
-  .hero-overlay {
-    display: none;
   }
 
   .hero::before {
