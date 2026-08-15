@@ -276,7 +276,12 @@ h3 { font-size: 1.1rem; }
    HERO (Ambient Floating Blobs & Drawer Effect)
    ============================================ */
 .hero {
-  padding: 60px 20px 56px;
+  min-height: calc(100dvh - 49px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
   text-align: center;
   background: var(--bone-deep);
   position: sticky;
@@ -310,11 +315,17 @@ h3 { font-size: 1.1rem; }
 }
 
 @media (min-width: 720px) {
-  .hero { padding: 100px 32px 90px; }
+  .hero {
+    min-height: calc(100dvh - 64px);
+    padding: 100px 32px;
+  }
 }
 
 @media (min-width: 1024px) {
-  .hero { padding: 120px 32px 110px; }
+  .hero {
+    min-height: calc(100dvh - 72px);
+    padding: 120px 32px;
+  }
 }
 
 @keyframes ambientBlobFloat {
