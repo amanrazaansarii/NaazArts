@@ -60,19 +60,51 @@ export default function HomePage() {
           </div>
           <div className="tile-grid">
             <Link href="/shop" className="tile">
-              <div className="tile-icon">◐</div>
+              <div className="tile-cover">
+                <img
+                  src="https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780"
+                  alt="Premium trays & jars"
+                  width={240}
+                  height={240}
+                  loading="lazy"
+                />
+              </div>
               <div className="tile-label">Premium trays & jars</div>
             </Link>
             <Link href="/shop" className="tile">
-              <div className="tile-icon">⌂</div>
+              <div className="tile-cover">
+                <img
+                  src="https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638"
+                  alt="Hand-Painted"
+                  width={240}
+                  height={240}
+                  loading="lazy"
+                />
+              </div>
               <div className="tile-label">Hand-Painted</div>
             </Link>
             <Link href="/shop" className="tile">
-              <div className="tile-icon">✎</div>
+              <div className="tile-cover">
+                <img
+                  src="https://ik.imagekit.io/naazartstudio/IMG_0294.jpeg?updatedAt=1786823662902"
+                  alt="DIY trays & Kits"
+                  width={240}
+                  height={240}
+                  loading="lazy"
+                />
+              </div>
               <div className="tile-label">DIY trays & Kits</div>
             </Link>
             <Link href="/workshops" className="tile">
-              <div className="tile-icon">✦</div>
+              <div className="tile-cover">
+                <img
+                  src="https://ik.imagekit.io/naazartstudio/IMG_0485.jpeg?updatedAt=1786823837217"
+                  alt="Workshops"
+                  width={240}
+                  height={240}
+                  loading="lazy"
+                />
+              </div>
               <div className="tile-label">Workshops</div>
             </Link>
           </div>

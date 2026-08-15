@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Naaz Arts — Handmade Concrete Art for the Home",
   description:
     "Handmade concrete trays, vases, and coasters — hand-cast, hand-sealed, one of a kind. Plus concrete art workshops, online and offline.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
