@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
   };
 
   const handleFillDemo = () => {
-    setEmail("admin@naazarts.com");
+    setEmail("creativenaaz.business@gmail.com");
     setPassword("StudioMaster2026!");
   };
 
@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
                 type="email"
                 className="form-input"
                 style={{ paddingLeft: "36px" }}
-                placeholder="admin@naazarts.com"
+                placeholder="creativenaaz.business@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

@@ -212,7 +212,7 @@ export default function AdminLayout({
                   {adminUser?.name || "Studio Director"}
                 </div>
                 <div style={{ fontSize: "0.72rem", color: "var(--ink-faint)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  {adminUser?.email || "admin@naazarts.com"}
+                  {adminUser?.email || "creativenaaz.business@gmail.com"}
                 </div>
               </div>
               <button

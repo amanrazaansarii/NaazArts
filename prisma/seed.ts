@@ -151,7 +151,7 @@ async function main() {
   const patronPasswordHash = await bcrypt.hash('StudioPatron2026!', salt);
 
   const adminUser = await prisma.user.upsert({
-    where: { email: 'admin@naazarts.com' },
+    where: { email: 'creativenaaz.business@gmail.com' },
     update: {
       name: 'Naaz Studio Director',
       passwordHash: adminPasswordHash,
@@ -160,7 +160,7 @@ async function main() {
     },
     create: {
       name: 'Naaz Studio Director',
-      email: 'admin@naazarts.com',
+      email: 'creativenaaz.business@gmail.com',
       passwordHash: adminPasswordHash,
       role: 'ADMIN',
       memberSince: 'January 2026',

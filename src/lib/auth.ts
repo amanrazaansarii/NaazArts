@@ -57,7 +57,7 @@ export async function getSessionUser(): Promise<TokenPayload | null> {
 export async function getAdminUser(): Promise<TokenPayload | null> {
   const user = await getSessionUser();
   if (!user) return null;
-  if (user.role === 'ADMIN' || user.email === 'admin@naazarts.com') {
+  if (user.role === 'ADMIN' || user.email === 'creativenaaz.business@gmail.com' || user.email === 'admin@naazarts.com') {
     return user;
   }
   // Also check database user role if token didn't have updated role
@@ -66,7 +66,7 @@ export async function getAdminUser(): Promise<TokenPayload | null> {
       where: { id: user.userId },
       select: { role: true, email: true },
     });
-    if (dbUser && (dbUser.role === 'ADMIN' || dbUser.email === 'admin@naazarts.com')) {
+    if (dbUser && (dbUser.role === 'ADMIN' || dbUser.email === 'creativenaaz.business@gmail.com' || dbUser.email === 'admin@naazarts.com')) {
       return { ...user, role: 'ADMIN' };
     }
   } catch {}

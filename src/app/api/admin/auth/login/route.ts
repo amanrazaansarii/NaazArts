@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid admin credentials' }, { status: 401 });
     }
 
-    if (user.role !== 'ADMIN' && user.email !== 'admin@naazarts.com') {
+    if (user.role !== 'ADMIN' && user.email !== 'creativenaaz.business@gmail.com' && user.email !== 'admin@naazarts.com') {
       return NextResponse.json({ error: 'Access denied: Admin privileges required' }, { status: 403 });
     }
 
