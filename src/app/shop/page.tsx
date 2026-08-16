@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { ShopCatalog } from "@/components/ShopCatalog";
+import { CatalogSkeleton } from "@/components/Skeletons";
 
 export const metadata = {
   title: "Shop — Naaz Arts",
@@ -23,13 +24,7 @@ export default function ShopPage() {
 
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
-          <Suspense
-            fallback={
-              <div style={{ textAlign: "center", padding: "40px 0" }}>
-                <p className="body-text">Loading catalog...</p>
-              </div>
-            }
-          >
+          <Suspense fallback={<CatalogSkeleton count={6} />}>
             <ShopCatalog />
           </Suspense>
         </div>

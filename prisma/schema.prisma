@@ -1,20 +1,10 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:../naazarts.db"
 }
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x", "debian-openssl-1.1.x", "debian-openssl-3.0.x"]
-}
-
-enum OrderStatus {
-  CONFIRMED
-  CASTING
-  PACKING
-  DISPATCHED
-  DELIVERED
-  CANCELLED
+  provider = "prisma-client-js"
 }
 
 model User {
@@ -22,6 +12,7 @@ model User {
   name         String
   email        String    @unique
   passwordHash String
+  role         String    @default("USER") // "USER" | "ADMIN"
   memberSince  String    @default("August 2026")
   avatarText   String?
   createdAt    DateTime  @default(now())
@@ -63,26 +54,31 @@ model Category {
 }
 
 model Product {
-  id           String    @id
-  slug         String    @unique
-  name         String
-  categoryName String
-  price        String
-  priceValue   Float
-  swatch       String
-  badge        String?
-  image        String?
-  description  String
-  details      String    // JSON array of strings
-  dimensions   String
-  weight       String
-  inStock      Boolean   @default(true)
-  leadTime     String
-  colors       String?   // JSON array of color objects
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id               String    @id
+  slug             String    @unique
+  name             String
+  categoryName     String
+  price            String
+  priceValue       Float
+  swatch           String
+  badge            String?
+  image            String?
+  images           String?   // JSON array of image URLs
+  prices           String?   // JSON object: { USD: 28, INR: 2299, EUR: 26, GBP: 22 }
+  description      String
+  details          String    // JSON array of strings
+  dimensions       String
+  weight           String
+  inStock          Boolean   @default(true)
+  stockStatus      String    @default("IN_STOCK") // "IN_STOCK" | "OUT_OF_STOCK" | "UNAVAILABLE"
+  productionStatus String    @default("READY")    // "READY" | "CASTING" | "CURING" | "RESTOCKING"
+  leadTime         String
+  colors           String?   // JSON array of color objects
+  variants         String?   // JSON array of rich variant objects
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
-  category     Category  @relation(fields: [categoryName], references: [name])
+  category         Category  @relation(fields: [categoryName], references: [name])
 
   @@map("products")
 }
@@ -105,7 +101,7 @@ model Order {
   id                String           @id // e.g. "#NAS-XXXXXX"
   userId            String?
   guestEmail        String?
-  status            OrderStatus      @default(CONFIRMED)
+  status            String           @default("CONFIRMED") // CONFIRMED, CASTING, PACKING, DISPATCHED, DELIVERED, CANCELLED
   subtotal          Float
   discount          Float            @default(0)
   shipping          Float            @default(0)
@@ -137,4 +133,56 @@ model OrderMilestone {
   order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@map("order_milestones")
+}
+
+model Review {
+  id             String   @id @default(cuid())
+  customerName   String
+  customerAvatar String?
+  source         String   @default("Instagram") // "Instagram" | "WhatsApp" | "Google" | "Website" | "Studio Visitor"
+  sourceUrl      String?
+  rating         Int      @default(5)
+  reviewText     String
+  productSlug    String?
+  reviewDate     String
+  isFeatured     Boolean  @default(false)
+  isPublished    Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model ContactSubmission {
+  id              String   @id @default(cuid())
+  name            String
+  email           String
+  phone           String?
+  type            String   @default("General inquiry") // "General inquiry" | "Custom order" | "Wholesale / bulk jars" | "Workshop question" | "Workshop Registration"
+  workshopSession String?
+  message         String
+  status          String   @default("NEW") // "NEW" | "IN_PROGRESS" | "RESPONDED" | "ARCHIVED"
+  adminNotes      String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("contact_submissions")
+}
+
+model Workshop {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   @default("In-person") // "In-person" | "Online"
+  date        String
+  location    String
+  price       String
+  priceValue  Float
+  maxSeats    Int      @default(12)
+  bookedSeats Int      @default(0)
+  description String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("workshops")
 }

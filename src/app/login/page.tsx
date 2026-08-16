@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowRight, Lock, CheckCircle2, UserCheck } from "lucide-react";
+import { Sparkles, ArrowRight, Lock, UserCheck } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 
 export default function LoginPage() {
@@ -84,37 +84,13 @@ export default function LoginPage() {
     <div className="auth-page-wrapper">
       <div className="container auth-container">
         <div className="auth-split-layout">
-          {/* Left: Studio Brand & Patron Perks */}
+          {/* Left: Studio Brand */}
           <div className="auth-perks-pane">
             <span className="eyebrow">Studio Community</span>
             <h2>Artisan pieces for thoughtful interiors</h2>
-            <p className="body-text" style={{ margin: "14px 0 28px" }}>
+            <p className="body-text" style={{ margin: "14px 0 0" }}>
               Join the Naaz Arts Patron Club to seamlessly track small-batch hand-casting cycles, save delivery destinations, and receive first notifications for limited holiday collections.
             </p>
-
-            <div className="perks-list">
-              <div className="perk-item">
-                <CheckCircle2 size={18} className="perk-icon" />
-                <div>
-                  <strong>Live #NAS-XXXXXX Tracking</strong>
-                  <span>Watch your pieces progress from mold mixing to curing.</span>
-                </div>
-              </div>
-              <div className="perk-item">
-                <CheckCircle2 size={18} className="perk-icon" />
-                <div>
-                  <strong>Private Workshop Priority</strong>
-                  <span>Exclusive early booking window for offline studio sessions.</span>
-                </div>
-              </div>
-              <div className="perk-item">
-                <CheckCircle2 size={18} className="perk-icon" />
-                <div>
-                  <strong>Saved Color Preferences</strong>
-                  <span>Fast, frictionless studio checkout.</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Right: Auth Card */}

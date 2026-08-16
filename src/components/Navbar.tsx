@@ -123,10 +123,10 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { href: "/shop", label: "Shop All Collection", badge: "New pieces" },
-    { href: "/workshops", label: "Workshops & Classes", badge: "In-Studio & Online" },
+    { href: "/shop", label: "Shop All Collection" },
+    { href: "/workshops", label: "Workshops & Classes" },
     { href: "/our-story", label: "Our Story & Craft" },
-    { href: "/track", label: "Track Your Order", badge: "#NAS-000000" },
+    { href: "/track", label: "Track Your Order" },
     { href: "/contact", label: "Custom Inquiries & Studio" },
   ];
 
@@ -344,7 +344,6 @@ export function Navbar() {
                 >
                   <div className="drawer-link-text">
                     <span>{link.label}</span>
-                    {link.badge && <span className="drawer-link-badge">{link.badge}</span>}
                   </div>
                   <ChevronRight size={16} className="drawer-arrow" />
                 </Link>
@@ -373,12 +372,11 @@ export function Navbar() {
               <div className="drawer-guest-cta">
                 <div>
                   <div className="drawer-cta-title">Join Studio Patron Club</div>
-                  <div className="drawer-cta-desc">Save favorite pieces & track orders</div>
                 </div>
                 <Link
                   href="/login"
                   className="btn btn-clay"
-                  style={{ padding: "8px 18px", fontSize: "0.8rem" }}
+                  style={{ padding: "8px 18px", fontSize: "0.8rem", whiteSpace: "nowrap", flexShrink: 0 }}
                   onClick={() => setDrawerOpen(false)}
                 >
                   Sign In

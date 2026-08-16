@@ -2,11 +2,13 @@ import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { config } from './config';
+import { prisma } from './prisma';
 
 export interface TokenPayload {
   userId: string;
   email: string;
   name: string;
+  role?: string;
 }
 
 const secretKey = new TextEncoder().encode(config.jwtSecret);
@@ -34,6 +36,7 @@ export async function verifyToken(token: string): Promise<TokenPayload | null> {
       userId: payload.userId as string,
       email: payload.email as string,
       name: payload.name as string,
+      role: (payload.role as string) || 'USER',
     };
   } catch {
     return null;
@@ -41,10 +44,33 @@ export async function verifyToken(token: string): Promise<TokenPayload | null> {
 }
 
 export async function getSessionUser(): Promise<TokenPayload | null> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(config.cookieName)?.value;
-  if (!token) return null;
-  return verifyToken(token);
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get(config.cookieName)?.value;
+    if (!token) return null;
+    return verifyToken(token);
+  } catch {
+    return null;
+  }
+}
+
+export async function getAdminUser(): Promise<TokenPayload | null> {
+  const user = await getSessionUser();
+  if (!user) return null;
+  if (user.role === 'ADMIN' || user.email === 'admin@naazarts.com') {
+    return user;
+  }
+  // Also check database user role if token didn't have updated role
+  try {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: user.userId },
+      select: { role: true, email: true },
+    });
+    if (dbUser && (dbUser.role === 'ADMIN' || dbUser.email === 'admin@naazarts.com')) {
+      return { ...user, role: 'ADMIN' };
+    }
+  } catch {}
+  return null;
 }
 
 export async function setAuthCookie(token: string): Promise<void> {
