@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { signupSchema } from '@/lib/validators';
-import { hashPassword, signToken, setAuthCookie } from '@/lib/auth';
+import { hashPassword, signToken } from '@/lib/auth';
+import { config } from '@/lib/config';
 
 export async function POST(req: Request) {
   try {
@@ -49,9 +50,7 @@ export async function POST(req: Request) {
       name: user.name,
     });
 
-    await setAuthCookie(token);
-
-    return NextResponse.json({
+    const response = NextResponse.json({
       user: {
         id: user.id,
         name: user.name,
@@ -61,10 +60,22 @@ export async function POST(req: Request) {
         defaultAddress: null,
       },
     });
+
+    response.cookies.set({
+      name: config.cookieName,
+      value: token,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+
+    return response;
   } catch (error: any) {
     console.error('[API] Signup error:', error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred during account creation. Please try again.' },
+      { error: error?.message || 'An unexpected error occurred during account creation. Please try again.' },
       { status: 500 }
     );
   }
