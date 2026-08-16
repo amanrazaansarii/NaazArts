@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSessionUser } from '@/lib/auth';
-import { OrderStatus } from '@prisma/client';
 
 export async function POST(req: Request) {
   try {
@@ -27,7 +26,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized to cancel this order' }, { status: 403 });
     }
 
-    if (order.status === OrderStatus.DISPATCHED || order.status === OrderStatus.DELIVERED) {
+    // If order is already DISPATCHED or DELIVERED, cannot cancel
+    if (order.status === 'DISPATCHED' || order.status === 'DELIVERED') {
       return NextResponse.json(
         { error: 'Cannot cancel order once it has already been dispatched from studio.' },
         { status: 400 }
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     const updated = await prisma.order.update({
       where: { id: orderId },
       data: {
-        status: OrderStatus.CANCELLED,
+        status: 'CANCELLED',
       },
       include: {
         milestones: {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { WorkshopsClient } from "./WorkshopsClient";
 
 export const metadata = {
   title: "Workshops — Naaz Arts",
@@ -20,48 +21,7 @@ export default function WorkshopsPage() {
         </div>
       </header>
 
-      <section className="section">
-        <div className="container">
-          <div className="workshop-cards-grid">
-            <div className="tile" style={{ textAlign: "left", padding: "28px" }}>
-              <span className="eyebrow">In person</span>
-              <h3 style={{ margin: "8px 0 10px", fontSize: "1.15rem" }}>
-                Offline Workshop — Tray &amp; Vase Painting
-              </h3>
-              <p className="body-text" style={{ marginBottom: "16px" }}>
-                Paint your own tray and our brand new vase design, guided start to
-                finish. Materials included.
-              </p>
-              <p className="body-text" style={{ marginBottom: "4px" }}>
-                <strong>Date:</strong> [Add date]
-              </p>
-              <p className="body-text" style={{ marginBottom: "18px" }}>
-                <strong>Location:</strong> [Add city / studio address]
-              </p>
-              <Link href="/contact" className="btn btn-clay">
-                Book a seat
-              </Link>
-            </div>
-
-            <div className="tile" style={{ textAlign: "left", padding: "28px" }}>
-              <span className="eyebrow">Online</span>
-              <h3 style={{ margin: "8px 0 10px", fontSize: "1.15rem" }}>
-                Online Workshop — via Google Meet
-              </h3>
-              <p className="body-text" style={{ marginBottom: "16px" }}>
-                Learn concrete art from home, wherever you are. A materials kit
-                ships to you ahead of the live session.
-              </p>
-              <p className="body-text" style={{ marginBottom: "18px" }}>
-                <strong>Next session:</strong> [Add date]
-              </p>
-              <Link href="/contact" className="btn btn-outline">
-                Reserve your spot
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <WorkshopsClient />
 
       <section className="section section-alt story-cta-section">
         <div className="container story-cta-inner">

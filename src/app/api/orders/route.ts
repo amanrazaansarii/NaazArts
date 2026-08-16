@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getSessionUser } from '@/lib/auth';
 import { createOrderSchema } from '@/lib/validators';
-import { OrderStatus } from '@prisma/client';
 import { sendOrderConfirmationEmail } from '@/lib/email';
 
 async function generateUniqueTrackingId(): Promise<string> {
@@ -121,7 +120,7 @@ export async function POST(req: Request) {
           const pastOrders = await prisma.order.count({
             where: {
               userId: session.userId,
-              status: { not: OrderStatus.CANCELLED },
+              status: { not: 'CANCELLED' },
             },
           });
           if (pastOrders === 0) {
@@ -157,7 +156,7 @@ export async function POST(req: Request) {
         id: trackingId,
         userId: session?.userId || null,
         guestEmail: email.toLowerCase().trim(),
-        status: OrderStatus.CONFIRMED,
+        status: 'CONFIRMED',
         subtotal,
         discount: discountAmount,
         shipping: finalShipping,

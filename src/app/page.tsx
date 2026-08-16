@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { ReviewsSection } from "@/components/ReviewsSection";
 
 export default function HomePage() {
   return (
@@ -269,20 +270,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ============ TESTIMONIALS ============ */}
-      <section className="section">
-        <div className="container" style={{ textAlign: "center", maxWidth: "700px" }}>
-          <span className="eyebrow">Loved by hands across the world</span>
-          <h2 style={{ margin: "20px 0 32px", fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.2rem, 3vw, 1.8rem)", color: "var(--ink-soft)" }}>
-            "A heavy, beautiful addition to my coffee table. You can feel the care poured into every corner."
-          </h2>
-          <div style={{ display: "flex", justifyContent: "center", gap: "12px", alignItems: "center" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--tone-4)" }}></div>
-            <span style={{ fontSize: "0.85rem", fontWeight: 600 }}>Sarah M.</span>
-            <span style={{ fontSize: "0.85rem", color: "var(--ink-faint)" }}>Verified Buyer</span>
-          </div>
-        </div>
-      </section>
+      {/* ============ DYNAMIC SOCIAL MEDIA REVIEWS ============ */}
+      <ReviewsSection />
 
       {/* ============ NEWSLETTER ============ */}
       <section className="section section-alt">
