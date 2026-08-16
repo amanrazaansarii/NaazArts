@@ -1,0 +1,139 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum OrderStatus {
+  CONFIRMED
+  CASTING
+  PACKING
+  DISPATCHED
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  memberSince  String    @default("August 2026")
+  avatarText   String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  addresses    Address[]
+  orders       Order[]
+
+  @@map("users")
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  fullName  String
+  street    String
+  city      String
+  state     String
+  zipCode   String
+  country   String   @default("United States")
+  phone     String?
+  isDefault Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("addresses")
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id           String    @id
+  slug         String    @unique
+  name         String
+  categoryName String
+  price        String
+  priceValue   Float
+  swatch       String
+  badge        String?
+  image        String?
+  description  String
+  details      String    // JSON array of strings
+  dimensions   String
+  weight       String
+  inStock      Boolean   @default(true)
+  leadTime     String
+  colors       String?   // JSON array of color objects
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  category     Category  @relation(fields: [categoryName], references: [name])
+
+  @@map("products")
+}
+
+model PromoCode {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  discountPercent Float
+  minItems        Int      @default(1)
+  firstOrderOnly  Boolean  @default(false)
+  requiresAuth    Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  description     String
+  createdAt       DateTime @default(now())
+
+  @@map("promo_codes")
+}
+
+model Order {
+  id                String           @id // e.g. "#NAS-XXXXXX"
+  userId            String?
+  guestEmail        String?
+  status            OrderStatus      @default(CONFIRMED)
+  subtotal          Float
+  discount          Float            @default(0)
+  shipping          Float            @default(0)
+  total             Float
+  promoCode         String?
+  carrier           String           @default("Artisan Courier Direct")
+  estimatedDelivery String
+  shippingAddress   String           // JSON string of UserAddress
+  items             String           // JSON string of CartItem[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  user              User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  milestones        OrderMilestone[]
+
+  @@map("orders")
+}
+
+model OrderMilestone {
+  id          String   @id @default(cuid())
+  orderId     String
+  title       String
+  description String
+  timestamp   String
+  completed   Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_milestones")
+}

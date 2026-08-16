@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { ShopCatalog } from "@/components/ShopCatalog";
 
@@ -22,7 +23,15 @@ export default function ShopPage() {
 
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container">
-          <ShopCatalog />
+          <Suspense
+            fallback={
+              <div style={{ textAlign: "center", padding: "40px 0" }}>
+                <p className="body-text">Loading catalog...</p>
+              </div>
+            }
+          >
+            <ShopCatalog />
+          </Suspense>
         </div>
       </section>
 

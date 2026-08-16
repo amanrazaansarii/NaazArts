@@ -150,26 +150,44 @@ export default function HomePage() {
             <h2>Best sellers</h2>
           </div>
           <div className="product-grid">
-            <div className="product-card">
+            <Link href="/shop/marble-tray-sage" className="product-card">
               <div className="product-thumb" style={{ background: "var(--tone-1)" }}>
+                <img
+                  src="https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780"
+                  alt="Marble tray — sage"
+                  className="product-card-img"
+                />
                 <span className="badge badge-new">New</span>
               </div>
               <div className="product-name">Marble tray — sage</div>
               <div className="product-cat">Premium tray</div>
               <div className="product-price">$28</div>
-            </div>
-            <div className="product-card">
-              <div className="product-thumb" style={{ background: "var(--tone-2)" }}></div>
+            </Link>
+            <Link href="/shop/earth-tone-coaster-set" className="product-card">
+              <div className="product-thumb" style={{ background: "var(--tone-2)" }}>
+                <img
+                  src="https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780"
+                  alt="Earth-tone coaster set"
+                  className="product-card-img"
+                />
+              </div>
               <div className="product-name">Earth-tone coaster set</div>
               <div className="product-cat">Coasters</div>
               <div className="product-price">$16</div>
-            </div>
-            <div className="product-card">
-              <div className="product-thumb" style={{ background: "var(--tone-3)" }}></div>
+            </Link>
+            <Link href="/shop/pastel-vase" className="product-card">
+              <div className="product-thumb" style={{ background: "var(--tone-3)" }}>
+                <img
+                  src="https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638"
+                  alt="Pastel vase"
+                  className="product-card-img"
+                />
+                <span className="badge badge-new">New</span>
+              </div>
               <div className="product-name">Pastel vase</div>
               <div className="product-cat">Vases</div>
               <div className="product-price">$34</div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
