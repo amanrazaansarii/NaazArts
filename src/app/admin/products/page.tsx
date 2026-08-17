@@ -22,7 +22,34 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+const COLLECTION_OPTIONS = [
+  "Premium jars & trays",
+  "Hand-painted",
+  "DIY Trays & kits",
+  "Seasonal & Festive",
+  "Minimalist Mineral",
+  "Wholesale Vessels",
+  "Custom...",
+];
+
+const PRODUCT_TYPE_OPTIONS = [
+  "Premium Trays",
+  "Raw Trays",
+  "Vases",
+  "Coasters",
+  "Candles",
+  "Jars",
+  "Starter Kits",
+  "Custom...",
+];
+
+export default function AdminProductsPage() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
+  const [collectionFilter, setCollectionFilter] = useState("All");
+  const [productTypeFilter, setProductTypeFilter] = useState("All");
   const [stockFilter, setStockFilter] = useState("ALL");
   const [categories, setCategories] = useState<string[]>(["All"]);
 
@@ -35,6 +62,10 @@ export default function AdminProductsPage() {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [categoryName, setCategoryName] = useState("Premium trays");
+  const [collection, setCollection] = useState("Premium jars & trays");
+  const [customCollection, setCustomCollection] = useState("");
+  const [productType, setProductType] = useState("Premium Trays");
+  const [customProductType, setCustomProductType] = useState("");
   const [description, setDescription] = useState("");
   const [leadTime, setLeadTime] = useState("Dispatched in 2-3 studio days");
   const [dimensions, setDimensions] = useState('8.25" L x 4.5" W x 0.75" H');
@@ -69,6 +100,8 @@ export default function AdminProductsPage() {
     setLoading(true);
     try {
       let url = `/api/admin/products?category=${categoryFilter}&stockStatus=${stockFilter}`;
+      if (collectionFilter !== "All") url += `&collection=${encodeURIComponent(collectionFilter)}`;
+      if (productTypeFilter !== "All") url += `&productType=${encodeURIComponent(productTypeFilter)}`;
       if (searchQuery) url += `&q=${encodeURIComponent(searchQuery)}`;
       const res = await fetch(url);
       if (res.ok) {
@@ -88,7 +121,7 @@ export default function AdminProductsPage() {
 
   useEffect(() => {
     fetchProducts();
-  }, [categoryFilter, stockFilter]);
+  }, [categoryFilter, collectionFilter, productTypeFilter, stockFilter]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,6 +134,10 @@ export default function AdminProductsPage() {
     setName("");
     setSlug("");
     setCategoryName("Premium trays");
+    setCollection("Premium jars & trays");
+    setCustomCollection("");
+    setProductType("Premium Trays");
+    setCustomProductType("");
     setDescription("");
     setLeadTime("Dispatched in 2-3 studio days");
     setDimensions('8.25" L x 4.5" W x 0.75" H');
@@ -134,6 +171,27 @@ export default function AdminProductsPage() {
     setName(prod.name);
     setSlug(prod.slug);
     setCategoryName(prod.categoryName);
+    
+    // Collection
+    const existingCol = prod.collection || "Premium jars & trays";
+    if (COLLECTION_OPTIONS.includes(existingCol)) {
+      setCollection(existingCol);
+      setCustomCollection("");
+    } else {
+      setCollection("Custom...");
+      setCustomCollection(existingCol);
+    }
+
+    // Product Type
+    const existingType = prod.productType || prod.categoryName || "Premium Trays";
+    if (PRODUCT_TYPE_OPTIONS.includes(existingType)) {
+      setProductType(existingType);
+      setCustomProductType("");
+    } else {
+      setProductType("Custom...");
+      setCustomProductType(existingType);
+    }
+
     setDescription(prod.description);
     setLeadTime(prod.leadTime || "Dispatched in 2-3 studio days");
     setDimensions(prod.dimensions || "");
@@ -232,10 +290,35 @@ export default function AdminProductsPage() {
     setSaving(true);
     setMessage(null);
 
+    const finalCollection = collection === "Custom..." ? customCollection.trim() : collection;
+    const finalProductType = productType === "Custom..." ? customProductType.trim() : productType;
+
     const payload = {
       name,
       slug: slug || name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
       categoryName,
+      collection: finalCollection || "Premium jars & trays",
+      productType: finalProductType || "Premium Trays",
+      price: `$${usdPrice}`,
+      priceValue: Number(usdPrice),
+      prices: {
+        USD: Number(usdPrice),
+        INR: Number(inrPrice),
+        EUR: Number(eurPrice),
+        GBP: Number(gbpPrice),
+      },
+      image: images.length > 0 ? images[0] : null,
+      images,
+      description,
+      leadTime,
+      dimensions,
+      weight,
+      badge: badge || null,
+      stockStatus,
+      inStock: stockStatus === "IN_STOCK",
+      productionStatus,
+      variants,
+    };
       price: `$${usdPrice}`,
       priceValue: Number(usdPrice),
       prices: {
@@ -334,11 +417,41 @@ export default function AdminProductsPage() {
         </form>
 
         {/* FILTERS & ADD BUTTON */}
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          {/* COLLECTION FILTER */}
+          <select
+            className="form-select"
+            style={{ width: "auto", fontSize: "0.82rem", padding: "8px 10px" }}
+            value={collectionFilter}
+            onChange={(e) => setCollectionFilter(e.target.value)}
+          >
+            <option value="All">All Collections</option>
+            {COLLECTION_OPTIONS.filter((c) => c !== "Custom...").map((col) => (
+              <option key={col} value={col}>
+                Collection: {col}
+              </option>
+            ))}
+          </select>
+
+          {/* PRODUCT TYPE FILTER */}
+          <select
+            className="form-select"
+            style={{ width: "auto", fontSize: "0.82rem", padding: "8px 10px" }}
+            value={productTypeFilter}
+            onChange={(e) => setProductTypeFilter(e.target.value)}
+          >
+            <option value="All">All Product Types</option>
+            {PRODUCT_TYPE_OPTIONS.filter((t) => t !== "Custom...").map((t) => (
+              <option key={t} value={t}>
+                Type: {t}
+              </option>
+            ))}
+          </select>
+
           {/* CATEGORY FILTER */}
           <select
             className="form-select"
-            style={{ width: "auto", fontSize: "0.85rem", padding: "8px 12px" }}
+            style={{ width: "auto", fontSize: "0.82rem", padding: "8px 10px" }}
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
           >
@@ -352,7 +465,7 @@ export default function AdminProductsPage() {
           {/* STOCK FILTER */}
           <select
             className="form-select"
-            style={{ width: "auto", fontSize: "0.85rem", padding: "8px 12px" }}
+            style={{ width: "auto", fontSize: "0.82rem", padding: "8px 10px" }}
             value={stockFilter}
             onChange={(e) => setStockFilter(e.target.value)}
           >
@@ -363,9 +476,9 @@ export default function AdminProductsPage() {
           </select>
 
           {/* ADD BUTTON */}
-          <button onClick={openCreateModal} className="admin-btn admin-btn-primary">
+          <button onClick={openCreateModal} className="admin-btn admin-btn-primary" style={{ whiteSpace: "nowrap" }}>
             <Plus size={16} />
-            <span>Add Handcrafted Piece</span>
+            <span>Add Piece</span>
           </button>
         </div>
       </div>
@@ -429,7 +542,14 @@ export default function AdminProductsPage() {
                     </td>
 
                     <td>
-                      <span style={{ fontSize: "0.85rem", color: "var(--ink-soft)" }}>{prod.categoryName}</span>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+                        <span style={{ fontSize: "0.86rem", fontWeight: 600, color: "var(--ink)" }}>
+                          {prod.productType || prod.categoryName}
+                        </span>
+                        <span style={{ fontSize: "0.72rem", color: "var(--clay-deep)", background: "var(--clay-tint)", padding: "1px 6px", borderRadius: "4px", width: "fit-content" }}>
+                          {prod.collection || "Premium jars & trays"}
+                        </span>
+                      </div>
                     </td>
 
                     <td>
@@ -580,6 +700,63 @@ export default function AdminProductsPage() {
                       onChange={(e) => setSlug(e.target.value)}
                       required
                     />
+                  </div>
+                </div>
+
+                {/* COLLECTION & PRODUCT TYPE CURATION */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px", background: "#FCFAF7", padding: "16px", borderRadius: "12px", border: "1px solid rgba(43,38,34,0.08)" }}>
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span>Collection *</span>
+                      <span style={{ fontSize: "0.72rem", color: "var(--ink-faint)" }}>Curated Drop</span>
+                    </label>
+                    <select
+                      className="form-select"
+                      value={collection}
+                      onChange={(e) => setCollection(e.target.value)}
+                    >
+                      {COLLECTION_OPTIONS.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                    {collection === "Custom..." && (
+                      <input
+                        type="text"
+                        placeholder="Enter custom collection (e.g. Festive Drops)..."
+                        className="form-input"
+                        style={{ marginTop: "6px", fontSize: "0.82rem" }}
+                        value={customCollection}
+                        onChange={(e) => setCustomCollection(e.target.value)}
+                        required
+                      />
+                    )}
+                  </div>
+
+                  <div className="form-group" style={{ margin: 0 }}>
+                    <label className="form-label" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span>Product Type *</span>
+                      <span style={{ fontSize: "0.72rem", color: "var(--ink-faint)" }}>Form &amp; Function</span>
+                    </label>
+                    <select
+                      className="form-select"
+                      value={productType}
+                      onChange={(e) => setProductType(e.target.value)}
+                    >
+                      {PRODUCT_TYPE_OPTIONS.map((t) => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                    {productType === "Custom..." && (
+                      <input
+                        type="text"
+                        placeholder="Enter custom type (e.g. Incense Burner)..."
+                        className="form-input"
+                        style={{ marginTop: "6px", fontSize: "0.82rem" }}
+                        value={customProductType}
+                        onChange={(e) => setCustomProductType(e.target.value)}
+                        required
+                      />
+                    )}
                   </div>
                 </div>
 

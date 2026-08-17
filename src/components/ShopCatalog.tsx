@@ -14,6 +14,8 @@ interface CatalogItem {
   href: string;
   name: string;
   category: Category;
+  collection?: string;
+  productType?: string;
   price: string;
   priceValue: number;
   swatch: string;
@@ -72,6 +74,8 @@ export function ShopCatalog() {
             href: `/shop/${prod.slug}?variant=${encodeURIComponent(v.name)}`,
             name: variantTitle,
             category: prod.category,
+            collection: prod.collection,
+            productType: prod.productType,
             price: variantPrice,
             priceValue: variantPriceVal,
             swatch: v.colorHex || prod.swatch,
@@ -92,6 +96,8 @@ export function ShopCatalog() {
           href: `/shop/${prod.slug}`,
           name: prod.name,
           category: prod.category,
+          collection: prod.collection,
+          productType: prod.productType,
           price: prod.price,
           priceValue: prod.priceValue,
           swatch: prod.swatch,
@@ -110,12 +116,16 @@ export function ShopCatalog() {
   const filteredItems = useMemo(() => {
     return catalogItems.filter((item) => {
       const matchesCategory =
-        activeCategory === "All" || item.category === activeCategory;
+        activeCategory === "All" ||
+        item.category === activeCategory ||
+        item.productType?.toLowerCase() === activeCategory.toLowerCase();
       const q = activeQuery.toLowerCase().trim();
       const matchesQuery =
         !q ||
         item.name.toLowerCase().includes(q) ||
         item.category.toLowerCase().includes(q) ||
+        (item.collection && item.collection.toLowerCase().includes(q)) ||
+        (item.productType && item.productType.toLowerCase().includes(q)) ||
         item.parentProduct.description.toLowerCase().includes(q) ||
         (item.variantName && item.variantName.toLowerCase().includes(q));
       return matchesCategory && matchesQuery;

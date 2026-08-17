@@ -79,6 +79,8 @@ export const productSchema = z.object({
   stockStatus: z.enum(['IN_STOCK', 'OUT_OF_STOCK', 'UNAVAILABLE']).default('IN_STOCK'),
   productionStatus: z.enum(['READY', 'CASTING', 'CURING', 'RESTOCKING']).default('READY'),
   leadTime: z.string().default('Dispatched in 2-3 studio days'),
+  collection: z.string().optional().nullable(),
+  productType: z.string().optional().nullable(),
   colors: z.array(z.object({
     name: z.string(),
     hex: z.string(),

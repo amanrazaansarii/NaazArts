@@ -6,6 +6,8 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category');
+    const collection = searchParams.get('collection');
+    const productType = searchParams.get('productType');
     const q = searchParams.get('q')?.toLowerCase().trim();
 
     // Query from Prisma
@@ -21,6 +23,8 @@ export async function GET(req: Request) {
         slug: p.slug,
         name: p.name,
         category: p.categoryName as any,
+        collection: p.collection || undefined,
+        productType: p.productType || undefined,
         price: p.price,
         priceValue: p.priceValue,
         swatch: p.swatch,
@@ -49,11 +53,21 @@ export async function GET(req: Request) {
       products = products.filter((p) => p.category.toLowerCase() === category.toLowerCase());
     }
 
+    if (collection && collection !== 'All' && collection !== 'All Collections') {
+      products = products.filter((p) => p.collection?.toLowerCase() === collection.toLowerCase());
+    }
+
+    if (productType && productType !== 'All' && productType !== 'All Types') {
+      products = products.filter((p) => p.productType?.toLowerCase() === productType.toLowerCase());
+    }
+
     if (q) {
       products = products.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
+          (p.collection && p.collection.toLowerCase().includes(q)) ||
+          (p.productType && p.productType.toLowerCase().includes(q)) ||
           p.description.toLowerCase().includes(q)
       );
     }

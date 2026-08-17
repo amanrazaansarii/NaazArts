@@ -61,12 +61,40 @@ async function main() {
           },
         ];
 
+    const collection =
+      prod.collection ||
+      (prod.category === 'Premium trays' || prod.category === 'Wholesale jars'
+        ? 'Premium jars & trays'
+        : prod.category === 'Raw trays — DIY' || prod.category === 'Starter kits'
+        ? 'DIY Trays & kits'
+        : prod.badge === 'limited'
+        ? 'Seasonal & Festive'
+        : 'Hand-painted');
+
+    const productType =
+      prod.productType ||
+      (prod.category === 'Premium trays'
+        ? 'Premium Trays'
+        : prod.category === 'Raw trays — DIY'
+        ? 'Raw Trays'
+        : prod.category === 'Vases'
+        ? 'Vases'
+        : prod.category === 'Coasters'
+        ? 'Coasters'
+        : prod.category === 'Candles — seasonal'
+        ? 'Candles'
+        : prod.category === 'Wholesale jars'
+        ? 'Jars'
+        : 'Starter Kits');
+
     await prisma.product.upsert({
       where: { slug: prod.slug },
       update: {
         id: prod.id,
         name: prod.name,
         categoryName: prod.category,
+        collection,
+        productType,
         price: prod.price,
         priceValue: prod.priceValue,
         swatch: prod.swatch,
@@ -90,6 +118,8 @@ async function main() {
         slug: prod.slug,
         name: prod.name,
         categoryName: prod.category,
+        collection,
+        productType,
         price: prod.price,
         priceValue: prod.priceValue,
         swatch: prod.swatch,

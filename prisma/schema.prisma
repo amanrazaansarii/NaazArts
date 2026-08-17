@@ -73,6 +73,8 @@ model Product {
   stockStatus      String    @default("IN_STOCK") // "IN_STOCK" | "OUT_OF_STOCK" | "UNAVAILABLE"
   productionStatus String    @default("READY")    // "READY" | "CASTING" | "CURING" | "RESTOCKING"
   leadTime         String
+  collection       String?   // e.g. "Premium jars & trays", "Hand-painted", "DIY Trays & kits"
+  productType      String?   // e.g. "Premium Trays", "Raw trays", "Vases", "Coasters", "Candles", "Jars"
   colors           String?   // JSON array of color objects
   variants         String?   // JSON array of rich variant objects
   createdAt        DateTime  @default(now())

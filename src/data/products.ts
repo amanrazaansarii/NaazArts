@@ -15,6 +15,8 @@ export interface Product {
   slug: string;
   name: string;
   category: Category;
+  collection?: string; // e.g. "Premium jars & trays", "Hand-painted", "DIY Trays & kits"
+  productType?: string; // e.g. "Premium Trays", "Raw Trays", "Vases", "Coasters", "Candles", "Jars"
   price: string;
   priceValue: number;
   swatch: string;
@@ -33,6 +35,27 @@ export interface Product {
   colors?: { name: string; hex: string; swatchVar: string; image?: string }[];
   variants?: ProductVariant[];
 }
+
+export const COLLECTIONS = [
+  "All Collections",
+  "Premium jars & trays",
+  "Hand-painted",
+  "DIY Trays & kits",
+  "Seasonal & Festive",
+  "Minimalist Mineral",
+  "Wholesale Vessels",
+] as const;
+
+export const PRODUCT_TYPES = [
+  "All Types",
+  "Premium Trays",
+  "Raw Trays",
+  "Vases",
+  "Coasters",
+  "Candles",
+  "Jars",
+  "Starter Kits",
+] as const;
 
 export const CATEGORIES = [
   "All",

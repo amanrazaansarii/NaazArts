@@ -12,6 +12,8 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category');
+    const collection = searchParams.get('collection');
+    const productType = searchParams.get('productType');
     const stockStatus = searchParams.get('stockStatus');
     const q = searchParams.get('q')?.toLowerCase().trim();
 
@@ -52,6 +54,8 @@ export async function GET(req: Request) {
         slug: p.slug,
         name: p.name,
         categoryName: p.categoryName,
+        collection: p.collection || null,
+        productType: p.productType || null,
         price: p.price,
         priceValue: p.priceValue,
         swatch: p.swatch,
@@ -78,6 +82,14 @@ export async function GET(req: Request) {
       products = products.filter((p) => p.categoryName.toLowerCase() === category.toLowerCase());
     }
 
+    if (collection && collection !== 'All' && collection !== 'All Collections') {
+      products = products.filter((p) => p.collection?.toLowerCase() === collection.toLowerCase());
+    }
+
+    if (productType && productType !== 'All' && productType !== 'All Types') {
+      products = products.filter((p) => p.productType?.toLowerCase() === productType.toLowerCase());
+    }
+
     if (stockStatus && stockStatus !== 'ALL') {
       products = products.filter((p) => p.stockStatus === stockStatus);
     }
@@ -88,6 +100,8 @@ export async function GET(req: Request) {
           p.name.toLowerCase().includes(q) ||
           p.slug.toLowerCase().includes(q) ||
           p.categoryName.toLowerCase().includes(q) ||
+          (p.collection && p.collection.toLowerCase().includes(q)) ||
+          (p.productType && p.productType.toLowerCase().includes(q)) ||
           p.description.toLowerCase().includes(q)
       );
     }
@@ -133,6 +147,8 @@ export async function POST(req: Request) {
         slug,
         name: data.name,
         categoryName: data.categoryName,
+        collection: data.collection || null,
+        productType: data.productType || null,
         price: data.price || `$${data.priceValue}`,
         priceValue: data.priceValue,
         swatch: data.swatch || 'var(--tone-1)',
