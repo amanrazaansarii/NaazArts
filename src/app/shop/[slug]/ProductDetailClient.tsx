@@ -1,14 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Check,
   ShoppingBag,
-  Sparkles,
-  ShieldCheck,
-  Truck,
   RotateCcw,
   ChevronDown,
   Plus,
@@ -62,6 +59,31 @@ export function ProductDetailClient({
   const [activeAccordion, setActiveAccordion] = useState<string | null>("craft");
   const [isAdded, setIsAdded] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const purchaseBoxRef = useRef<HTMLDivElement>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  // IntersectionObserver to reveal sticky Add to Bag on mobile after scrolling past purchase box
+  useEffect(() => {
+    const target = purchaseBoxRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+          setShowStickyBar(true);
+        } else {
+          setShowStickyBar(false);
+        }
+      },
+      {
+        root: null,
+        threshold: 0,
+      }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
 
   // Sync if URL query param changes
   useEffect(() => {
@@ -221,22 +243,6 @@ export function ProductDetailClient({
               ))}
             </div>
           )}
-
-          {/* Quick Feature Badges */}
-          <div className="product-trust-strip">
-            <div className="trust-item">
-              <Sparkles size={16} className="trust-icon" />
-              <span>100% Hand-Cast Concrete</span>
-            </div>
-            <div className="trust-item">
-              <ShieldCheck size={16} className="trust-icon" />
-              <span>Natural Beeswax Finish</span>
-            </div>
-            <div className="trust-item">
-              <Truck size={16} className="trust-icon" />
-              <span>Plastic-Free Packaging</span>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Details, Purchasing & Accordions */}
@@ -256,7 +262,8 @@ export function ProductDetailClient({
             </div>
           </div>
 
-          <p className="product-description-text">{product.description}</p>
+          {/* Desktop Product Description (positioned right below price on desktop) */}
+          <p className="product-description-text product-description-desktop">{product.description}</p>
 
           {/* VARIANTS & DESIGN FINISHES SELECTION BLOCK */}
           {product.variants && product.variants.length > 0 ? (
@@ -373,7 +380,7 @@ export function ProductDetailClient({
           )}
 
           {/* Quantity and Actions */}
-          <div className="product-purchase-box">
+          <div ref={purchaseBoxRef} className="product-purchase-box">
             <div className="quantity-control-group">
               <span className="quantity-label">Quantity</span>
               <div className="quantity-counter">
@@ -400,6 +407,16 @@ export function ProductDetailClient({
             </div>
 
             <div className="cta-button-group">
+              {!isCurrentOutOfStock && (
+                <button
+                  type="button"
+                  className="btn btn-sage product-buy-now-btn"
+                  onClick={handleBuyNow}
+                >
+                  Buy Now →
+                </button>
+              )}
+
               <button
                 type="button"
                 className={`btn btn-clay product-add-btn ${
@@ -423,16 +440,6 @@ export function ProductDetailClient({
                   </>
                 )}
               </button>
-
-              {!isCurrentOutOfStock && (
-                <button
-                  type="button"
-                  className="btn btn-sage product-buy-now-btn"
-                  onClick={handleBuyNow}
-                >
-                  Buy Now →
-                </button>
-              )}
             </div>
 
             <div className="product-sub-actions">
@@ -450,6 +457,9 @@ export function ProductDetailClient({
               </div>
             </div>
           </div>
+
+          {/* Mobile Product Description (positioned right above Concrete Craft & Characteristics on mobile) */}
+          <p className="product-description-text product-description-mobile">{product.description}</p>
 
           {/* Accordion Specification Tabs */}
           <div className="product-accordions-group">
@@ -628,6 +638,58 @@ export function ProductDetailClient({
           </div>
         </div>
       )}
+
+      {/* ============ MOBILE STICKY ADD TO BAG DOCK ============ */}
+      <div
+        className={`product-mobile-sticky-bar ${
+          showStickyBar ? "is-visible" : ""
+        }`}
+        aria-hidden={!showStickyBar}
+      >
+        <div className="sticky-bar-content">
+          <div className="sticky-bar-product-info">
+            {activeImage && (
+              <img
+                src={activeImage}
+                alt={product.name}
+                className="sticky-bar-thumb"
+              />
+            )}
+            <div className="sticky-bar-details">
+              <span className="sticky-bar-title">{product.name}</span>
+              <span className="sticky-bar-price">
+                {currentPriceValue > 0
+                  ? `$${currentPriceValue * quantity}`
+                  : currentPriceDisplay}
+                {selectedVariant && (
+                  <span className="sticky-bar-variant"> • {selectedVariant.name}</span>
+                )}
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className={`btn btn-clay sticky-add-btn ${
+              isAdded ? "is-success" : ""
+            }`}
+            onClick={handleAddToCart}
+            disabled={isCurrentOutOfStock}
+          >
+            {isCurrentOutOfStock ? (
+              "Sold Out"
+            ) : isAdded ? (
+              <>
+                <Check size={16} /> Added!
+              </>
+            ) : (
+              <>
+                <ShoppingBag size={16} /> Add to Bag
+              </>
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
