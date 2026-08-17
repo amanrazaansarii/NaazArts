@@ -18,10 +18,6 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-export default function AdminProductsPage() {
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
 const COLLECTION_OPTIONS = [
   "Premium jars & trays",
   "Hand-painted",
