@@ -315,26 +315,6 @@ export default function AdminProductsPage() {
       productionStatus,
       variants,
     };
-      price: `$${usdPrice}`,
-      priceValue: Number(usdPrice),
-      prices: {
-        USD: Number(usdPrice),
-        INR: Number(inrPrice),
-        EUR: Number(eurPrice),
-        GBP: Number(gbpPrice),
-      },
-      image: images.length > 0 ? images[0] : null,
-      images,
-      description,
-      leadTime,
-      dimensions,
-      weight,
-      badge: badge || null,
-      stockStatus,
-      inStock: stockStatus === "IN_STOCK",
-      productionStatus,
-      variants,
-    };
 
     try {
       const url = modalMode === "create" ? "/api/admin/products" : `/api/admin/products/${currentId}`;
