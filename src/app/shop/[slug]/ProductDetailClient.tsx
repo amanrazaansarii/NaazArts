@@ -59,31 +59,8 @@ export function ProductDetailClient({
   const [activeAccordion, setActiveAccordion] = useState<string | null>("craft");
   const [isAdded, setIsAdded] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
-  const purchaseBoxRef = useRef<HTMLDivElement>(null);
+  const buyNowRef = useRef<HTMLDivElement | HTMLButtonElement | null>(null);
   const [showStickyBar, setShowStickyBar] = useState(false);
-
-  // IntersectionObserver to reveal sticky Add to Bag on mobile after scrolling past purchase box
-  useEffect(() => {
-    const target = purchaseBoxRef.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-          setShowStickyBar(true);
-        } else {
-          setShowStickyBar(false);
-        }
-      },
-      {
-        root: null,
-        threshold: 0,
-      }
-    );
-
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, []);
 
   // Sync if URL query param changes
   useEffect(() => {
@@ -121,6 +98,29 @@ export function ProductDetailClient({
     product.stockStatus === "OUT_OF_STOCK" ||
     product.stockStatus === "UNAVAILABLE" ||
     !product.inStock;
+
+  // IntersectionObserver to reveal sticky Add to Bag on mobile as soon as the user scrolls past Buy Now button
+  useEffect(() => {
+    const target = buyNowRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+          setShowStickyBar(true);
+        } else {
+          setShowStickyBar(false);
+        }
+      },
+      {
+        root: null,
+        threshold: 0,
+      }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [isCurrentOutOfStock]);
 
   const handleAddToCart = () => {
     if (isCurrentOutOfStock) return;
@@ -380,7 +380,7 @@ export function ProductDetailClient({
           )}
 
           {/* Quantity and Actions */}
-          <div ref={purchaseBoxRef} className="product-purchase-box">
+          <div className="product-purchase-box">
             <div className="quantity-control-group">
               <span className="quantity-label">Quantity</span>
               <div className="quantity-counter">
@@ -407,19 +407,22 @@ export function ProductDetailClient({
             </div>
 
             <div className="cta-button-group">
-              {!isCurrentOutOfStock && (
+              {!isCurrentOutOfStock ? (
                 <button
+                  ref={buyNowRef as React.RefObject<HTMLButtonElement>}
                   type="button"
-                  className="btn btn-sage product-buy-now-btn"
+                  className="btn btn-clay product-buy-now-btn"
                   onClick={handleBuyNow}
                 >
                   Buy Now →
                 </button>
+              ) : (
+                <div ref={buyNowRef as React.RefObject<HTMLDivElement>} />
               )}
 
               <button
                 type="button"
-                className={`btn btn-clay product-add-btn ${
+                className={`btn btn-sage product-add-btn ${
                   isAdded ? "is-success" : ""
                 }`}
                 onClick={handleAddToCart}
@@ -670,7 +673,7 @@ export function ProductDetailClient({
 
           <button
             type="button"
-            className={`btn btn-clay sticky-add-btn ${
+            className={`btn btn-sage sticky-add-btn ${
               isAdded ? "is-success" : ""
             }`}
             onClick={handleAddToCart}
