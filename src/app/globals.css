@@ -916,9 +916,9 @@ h3 { font-size: 1.1rem; }
   padding: 40px 20px 48px;
   text-align: center;
   background: var(--bone-deep);
-  position: sticky;
-  top: 0;
-  z-index: 0;
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
   overflow: hidden;
 }
 
@@ -1071,7 +1071,8 @@ h3 { font-size: 1.1rem; }
   padding: 48px 20px; 
   background: var(--bone);
   position: relative;
-  z-index: 10;
+  z-index: 2;
+  isolation: isolate;
 }
 
 @media (min-width: 720px) {
