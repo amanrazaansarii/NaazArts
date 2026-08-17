@@ -92,6 +92,7 @@ export const productSchema = z.object({
     stockStatus: z.string().default('IN_STOCK'),
     priceOverride: z.number().optional().nullable(),
     image: z.string().optional().nullable(),
+    images: z.array(z.string()).optional(),
   })).optional(),
 });
 

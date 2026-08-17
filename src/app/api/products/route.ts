@@ -26,13 +26,18 @@ export async function GET(req: Request) {
         swatch: p.swatch,
         badge: (p.badge as 'new' | 'limited') || undefined,
         image: p.image || undefined,
+        images: p.images ? JSON.parse(p.images) : p.image ? [p.image] : [],
+        prices: p.prices ? JSON.parse(p.prices) : undefined,
         description: p.description,
         details: p.details ? JSON.parse(p.details) : [],
         dimensions: p.dimensions,
         weight: p.weight,
         inStock: p.inStock,
+        stockStatus: p.stockStatus,
+        productionStatus: p.productionStatus,
         leadTime: p.leadTime,
         colors: p.colors ? JSON.parse(p.colors) : undefined,
+        variants: p.variants ? JSON.parse(p.variants) : undefined,
       }));
     } else {
       // Fallback

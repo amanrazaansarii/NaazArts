@@ -1,3 +1,15 @@
+export interface ProductVariant {
+  id: string;
+  name: string;
+  colorHex?: string;
+  swatchVar?: string;
+  stockStatus?: string; // "IN_STOCK" | "OUT_OF_STOCK" | "UNAVAILABLE"
+  priceOverride?: number | null;
+  image?: string | null;
+  images?: string[];
+  slug?: string;
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -8,13 +20,18 @@ export interface Product {
   swatch: string;
   badge?: "new" | "limited";
   image?: string;
+  images?: string[];
+  prices?: { USD?: number; INR?: number; EUR?: number; GBP?: number };
   description: string;
   details: string[];
   dimensions: string;
   weight: string;
   inStock: boolean;
+  stockStatus?: string;
+  productionStatus?: string;
   leadTime: string;
-  colors?: { name: string; hex: string; swatchVar: string }[];
+  colors?: { name: string; hex: string; swatchVar: string; image?: string }[];
+  variants?: ProductVariant[];
 }
 
 export const CATEGORIES = [
@@ -41,6 +58,11 @@ export const PRODUCTS: Product[] = [
     swatch: "var(--tone-1)",
     badge: "new",
     image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+    images: [
+      "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+      "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      "https://ik.imagekit.io/naazartstudio/IMG_0294.jpeg?updatedAt=1786823662902",
+    ],
     description: "An organically contoured concrete accent tray, hand-marbled with soft mineral sage tones and natural earth pigments. Sealed with eco-friendly organic beeswax for a satin tactile finish.",
     details: [
       "Individually hand-cast with natural air bubble character",
@@ -53,9 +75,41 @@ export const PRODUCTS: Product[] = [
     inStock: true,
     leadTime: "Dispatched in 2-3 studio days",
     colors: [
-      { name: "Sage Mist", hex: "#A8B29A", swatchVar: "var(--tone-1)" },
-      { name: "Terracotta Clay", hex: "#C1704E", swatchVar: "var(--tone-2)" },
-      { name: "Blush Sand", hex: "#D6C4AE", swatchVar: "var(--tone-3)" },
+      { name: "Sage Mist", hex: "#A8B29A", swatchVar: "var(--tone-1)", image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780" },
+      { name: "Terracotta Clay", hex: "#C1704E", swatchVar: "var(--tone-2)", image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638" },
+      { name: "Blush Sand", hex: "#D6C4AE", swatchVar: "var(--tone-3)", image: "https://ik.imagekit.io/naazartstudio/IMG_0294.jpeg?updatedAt=1786823662902" },
+    ],
+    variants: [
+      {
+        id: "var-1-sage",
+        name: "Sage Mist",
+        colorHex: "#A8B29A",
+        swatchVar: "var(--tone-1)",
+        stockStatus: "IN_STOCK",
+        priceOverride: null,
+        image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+        images: ["https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780"],
+      },
+      {
+        id: "var-1-terracotta",
+        name: "Terracotta Clay",
+        colorHex: "#C1704E",
+        swatchVar: "var(--tone-2)",
+        stockStatus: "IN_STOCK",
+        priceOverride: null,
+        image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+        images: ["https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638"],
+      },
+      {
+        id: "var-1-blush",
+        name: "Blush Sand",
+        colorHex: "#D6C4AE",
+        swatchVar: "var(--tone-3)",
+        stockStatus: "IN_STOCK",
+        priceOverride: null,
+        image: "https://ik.imagekit.io/naazartstudio/IMG_0294.jpeg?updatedAt=1786823662902",
+        images: ["https://ik.imagekit.io/naazartstudio/IMG_0294.jpeg?updatedAt=1786823662902"],
+      },
     ],
   },
   {
@@ -67,6 +121,10 @@ export const PRODUCTS: Product[] = [
     priceValue: 28,
     swatch: "var(--tone-2)",
     image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+    images: [
+      "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+    ],
     description: "Hand-poured concrete dish featuring deep terracotta marbling swirled into warm off-white stone cement. Each swirl is completely unique and unrepeatable.",
     details: [
       "Custom earth-pigment suspension technique",
@@ -79,8 +137,28 @@ export const PRODUCTS: Product[] = [
     inStock: true,
     leadTime: "Dispatched in 2-3 studio days",
     colors: [
-      { name: "Terracotta Clay", hex: "#C1704E", swatchVar: "var(--tone-2)" },
-      { name: "Sage Mist", hex: "#A8B29A", swatchVar: "var(--tone-1)" },
+      { name: "Terracotta Clay", hex: "#C1704E", swatchVar: "var(--tone-2)", image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638" },
+      { name: "Sage Mist", hex: "#A8B29A", swatchVar: "var(--tone-1)", image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780" },
+    ],
+    variants: [
+      {
+        id: "var-2-terracotta",
+        name: "Terracotta Swirl",
+        colorHex: "#C1704E",
+        swatchVar: "var(--tone-2)",
+        stockStatus: "IN_STOCK",
+        priceOverride: null,
+        image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      },
+      {
+        id: "var-2-sage",
+        name: "Sage Swirl",
+        colorHex: "#A8B29A",
+        swatchVar: "var(--tone-1)",
+        stockStatus: "IN_STOCK",
+        priceOverride: null,
+        image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+      },
     ],
   },
   {
@@ -103,6 +181,24 @@ export const PRODUCTS: Product[] = [
     weight: "380g",
     inStock: true,
     leadTime: "Dispatched in 2-3 studio days",
+    variants: [
+      {
+        id: "var-3-blush",
+        name: "Blush Rose",
+        colorHex: "#D6C4AE",
+        swatchVar: "var(--tone-3)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_0294.jpeg?updatedAt=1786823662902",
+      },
+      {
+        id: "var-3-sand",
+        name: "Bone Cream",
+        colorHex: "#EAE3D9",
+        swatchVar: "var(--tone-1)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+      },
+    ],
   },
   {
     id: "prod-4",
@@ -216,6 +312,11 @@ export const PRODUCTS: Product[] = [
     swatch: "var(--tone-2)",
     badge: "new",
     image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+    images: [
+      "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      "https://ik.imagekit.io/naazartstudio/IMG_0485.jpeg?updatedAt=1786823837217",
+      "https://ik.imagekit.io/naazartstudio/IMG_0747.png?updatedAt=1786817264435",
+    ],
     description: "Sculptural fluted concrete bud vase. Cast as a heavy solid monolith with an interior waterproof glass cylinder for fresh botanical stems or dried florals.",
     details: [
       "Includes removable waterproof glass inner tube",
@@ -227,6 +328,38 @@ export const PRODUCTS: Product[] = [
     weight: "680g",
     inStock: true,
     leadTime: "Dispatched in 3-4 studio days",
+    colors: [
+      { name: "Terracotta Glow", hex: "#C1704E", swatchVar: "var(--tone-2)", image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638" },
+      { name: "Chalk Bone", hex: "#EDE8E1", swatchVar: "var(--tone-1)", image: "https://ik.imagekit.io/naazartstudio/IMG_0485.jpeg?updatedAt=1786823837217" },
+      { name: "Midnight Charcoal", hex: "#3A3530", swatchVar: "var(--tone-9)", image: "https://ik.imagekit.io/naazartstudio/IMG_0747.png?updatedAt=1786817264435" },
+    ],
+    variants: [
+      {
+        id: "var-9-terracotta",
+        name: "Terracotta Glow",
+        colorHex: "#C1704E",
+        swatchVar: "var(--tone-2)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      },
+      {
+        id: "var-9-chalk",
+        name: "Chalk Bone",
+        colorHex: "#EDE8E1",
+        swatchVar: "var(--tone-1)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_0485.jpeg?updatedAt=1786823837217",
+      },
+      {
+        id: "var-9-charcoal",
+        name: "Midnight Charcoal",
+        colorHex: "#3A3530",
+        swatchVar: "var(--tone-9)",
+        stockStatus: "IN_STOCK",
+        priceOverride: 38,
+        image: "https://ik.imagekit.io/naazartstudio/IMG_0747.png?updatedAt=1786817264435",
+      },
+    ],
   },
   {
     id: "prod-10",
@@ -277,6 +410,11 @@ export const PRODUCTS: Product[] = [
     priceValue: 16,
     swatch: "var(--tone-5)",
     image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+    images: [
+      "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+      "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      "https://ik.imagekit.io/naazartstudio/IMG_0485.jpeg?updatedAt=1786823837217",
+    ],
     description: "Set of 4 stackable ribbed coasters in gradient earth tones: Bone, Clay, Terracotta, and Sage. Absorbent and heat-resistant.",
     details: [
       "Set of 4 matching tactile coasters",
@@ -288,6 +426,32 @@ export const PRODUCTS: Product[] = [
     weight: "520g (set)",
     inStock: true,
     leadTime: "In stock, ready to ship",
+    variants: [
+      {
+        id: "var-12-sage",
+        name: "Sage Mineral (4-pack)",
+        colorHex: "#A8B29A",
+        swatchVar: "var(--tone-1)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+      },
+      {
+        id: "var-12-terracotta",
+        name: "Terracotta Earth (4-pack)",
+        colorHex: "#C1704E",
+        swatchVar: "var(--tone-2)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      },
+      {
+        id: "var-12-bone",
+        name: "Raw Bone & Sand (4-pack)",
+        colorHex: "#D6C4AE",
+        swatchVar: "var(--tone-3)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_0485.jpeg?updatedAt=1786823837217",
+      },
+    ],
   },
   {
     id: "prod-13",
@@ -329,6 +493,24 @@ export const PRODUCTS: Product[] = [
     weight: "550g",
     inStock: true,
     leadTime: "Limited seasonal batch",
+    variants: [
+      {
+        id: "var-14-cedar",
+        name: "Wild Cedar & Sage",
+        colorHex: "#A8B29A",
+        swatchVar: "var(--tone-1)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780",
+      },
+      {
+        id: "var-14-amber",
+        name: "Amber Resin & Spice",
+        colorHex: "#C1704E",
+        swatchVar: "var(--tone-2)",
+        stockStatus: "IN_STOCK",
+        image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638",
+      },
+    ],
   },
   {
     id: "prod-15",

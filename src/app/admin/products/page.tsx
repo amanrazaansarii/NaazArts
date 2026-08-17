@@ -60,6 +60,7 @@ export default function AdminProductsPage() {
   const [newVariantStatus, setNewVariantStatus] = useState("IN_STOCK");
   const [newVariantPrice, setNewVariantPrice] = useState<number | null>(null);
   const [newVariantImage, setNewVariantImage] = useState("");
+  const [editingVariantId, setEditingVariantId] = useState<string | null>(null);
 
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
@@ -113,9 +114,15 @@ export default function AdminProductsPage() {
     setInrPrice(2299);
     setEurPrice(26);
     setGbpPrice(22);
+    setNewVariantName("");
+    setNewVariantHex("#A8B29A");
+    setNewVariantStatus("IN_STOCK");
+    setNewVariantPrice(null);
+    setNewVariantImage("");
+    setEditingVariantId(null);
     setVariants([
-      { id: "var-1", name: "Sage Mist", colorHex: "#A8B29A", swatchVar: "var(--tone-1)", stockStatus: "IN_STOCK" },
-      { id: "var-2", name: "Terracotta Clay", colorHex: "#C1704E", swatchVar: "var(--tone-2)", stockStatus: "IN_STOCK" },
+      { id: "var-1", name: "Sage Mist", colorHex: "#A8B29A", swatchVar: "var(--tone-1)", stockStatus: "IN_STOCK", image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780" },
+      { id: "var-2", name: "Terracotta Clay", colorHex: "#C1704E", swatchVar: "var(--tone-2)", stockStatus: "IN_STOCK", image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638" },
     ]);
     setIsModalOpen(true);
     setMessage(null);
@@ -136,6 +143,12 @@ export default function AdminProductsPage() {
     setProductionStatus(prod.productionStatus || "READY");
     setImages(prod.images && prod.images.length > 0 ? prod.images : prod.image ? [prod.image] : []);
     setNewImageUrl("");
+    setNewVariantName("");
+    setNewVariantHex("#A8B29A");
+    setNewVariantStatus("IN_STOCK");
+    setNewVariantPrice(null);
+    setNewVariantImage("");
+    setEditingVariantId(null);
     
     // Pricing
     const pPrices = prod.prices || {};
@@ -144,8 +157,21 @@ export default function AdminProductsPage() {
     setEurPrice(pPrices.EUR || Math.round(prod.priceValue * 0.92) || 26);
     setGbpPrice(pPrices.GBP || Math.round(prod.priceValue * 0.79) || 22);
 
-    // Variants
-    setVariants(prod.variants || (prod.colors ? prod.colors.map((c: any, i: number) => ({ id: `var-${i}`, name: c.name, colorHex: c.hex, swatchVar: c.swatchVar, stockStatus: "IN_STOCK" })) : []));
+    // Variants with separate images
+    setVariants(
+      prod.variants && prod.variants.length > 0
+        ? prod.variants
+        : prod.colors
+        ? prod.colors.map((c: any, i: number) => ({
+            id: `var-${i}`,
+            name: c.name,
+            colorHex: c.hex,
+            swatchVar: c.swatchVar,
+            stockStatus: "IN_STOCK",
+            image: c.image || prod.image || null,
+          }))
+        : []
+    );
     setIsModalOpen(true);
     setMessage(null);
   };
@@ -166,14 +192,16 @@ export default function AdminProductsPage() {
     const newVar = {
       id: `var-${Date.now()}`,
       name: newVariantName.trim(),
-      colorHex: newVariantHex,
+      colorHex: newVariantHex || "#A8B29A",
       swatchVar: "var(--tone-1)",
       stockStatus: newVariantStatus,
-      priceOverride: newVariantPrice || null,
-      image: newVariantImage || null,
+      priceOverride: newVariantPrice ? Number(newVariantPrice) : null,
+      image: newVariantImage.trim() || null,
+      images: newVariantImage.trim() ? [newVariantImage.trim()] : [],
     };
     setVariants([...variants, newVar]);
     setNewVariantName("");
+    setNewVariantHex("#A8B29A");
     setNewVariantPrice(null);
     setNewVariantImage("");
   };
@@ -186,6 +214,16 @@ export default function AdminProductsPage() {
     const updatedStock = currentStock === "IN_STOCK" ? "OUT_OF_STOCK" : "IN_STOCK";
     setVariants(
       variants.map((v) => (v.id === varId ? { ...v, stockStatus: updatedStock } : v))
+    );
+  };
+
+  const handleUpdateVariantImage = (varId: string, imgUrl: string) => {
+    setVariants(
+      variants.map((v) =>
+        v.id === varId
+          ? { ...v, image: imgUrl.trim() || null, images: imgUrl.trim() ? [imgUrl.trim()] : [] }
+          : v
+      )
     );
   };
 
@@ -713,14 +751,24 @@ export default function AdminProductsPage() {
                   </div>
                 </div>
 
-                {/* SEPARATE VARIANTS MANAGER */}
-                <div style={{ background: "#FCFAF7", padding: "16px", borderRadius: "12px", border: "1px solid rgba(43,38,34,0.08)" }}>
-                  <label className="form-label" style={{ marginBottom: "8px", display: "block" }}>
-                    Separate Product Variants & Designs (Colors, Textures, Custom Finish)
-                  </label>
+                {/* SEPARATE VARIANTS & VARIANT IMAGES MANAGER */}
+                <div style={{ background: "#FCFAF7", padding: "18px", borderRadius: "14px", border: "1px solid rgba(43,38,34,0.1)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
+                    <div>
+                      <label className="form-label" style={{ marginBottom: "2px", display: "flex", alignItems: "center", gap: "6px" }}>
+                        <span>Separate Product Variants &amp; Variant Images</span>
+                        <span style={{ fontSize: "0.72rem", background: "var(--clay-tint)", color: "var(--clay-deep)", padding: "2px 6px", borderRadius: "4px", fontWeight: 700 }}>
+                          Catalog Separated
+                        </span>
+                      </label>
+                      <p style={{ fontSize: "0.78rem", color: "var(--ink-soft)", margin: 0 }}>
+                        Every variant can have its own dedicated image. In the store catalog, each variant is shown as a separate piece, linking to this product&apos;s options.
+                      </p>
+                    </div>
+                  </div>
 
                   {/* LIST OF CURRENT VARIANTS */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "14px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "16px" }}>
                     {variants.map((v) => (
                       <div
                         key={v.id}
@@ -728,84 +776,205 @@ export default function AdminProductsPage() {
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
-                          padding: "8px 12px",
-                          borderRadius: "8px",
+                          padding: "10px 14px",
+                          borderRadius: "10px",
                           background: "#FFFFFF",
                           border: "1px solid rgba(43,38,34,0.08)",
+                          boxShadow: "0 2px 6px rgba(43,38,34,0.02)",
+                          gap: "12px",
+                          flexWrap: "wrap",
                         }}
                       >
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                          <span style={{ width: "16px", height: "16px", borderRadius: "50%", background: v.colorHex || "#A8B29A", border: "1px solid rgba(0,0,0,0.1)" }} />
-                          <div>
-                            <div style={{ fontWeight: 600, fontSize: "0.88rem" }}>{v.name}</div>
-                            <div style={{ fontSize: "0.75rem", color: "var(--ink-faint)" }}>
-                              {v.priceOverride ? `Price Override: $${v.priceOverride}` : "Standard Product Price"}
+                        {/* Variant Thumbnail + Details */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: "1 1 240px" }}>
+                          <div
+                            style={{
+                              width: "46px",
+                              height: "46px",
+                              borderRadius: "8px",
+                              overflow: "hidden",
+                              background: v.colorHex || "var(--tone-1)",
+                              border: "1px solid rgba(0,0,0,0.1)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {v.image ? (
+                              <img
+                                src={v.image}
+                                alt={v.name}
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                              />
+                            ) : (
+                              <ImageIcon size={18} color="#FFFFFF" />
+                            )}
+                          </div>
+
+                          <div style={{ minWidth: 0 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                              <span
+                                style={{
+                                  width: "12px",
+                                  height: "12px",
+                                  borderRadius: "50%",
+                                  background: v.colorHex || "#A8B29A",
+                                  border: "1px solid rgba(0,0,0,0.15)",
+                                  flexShrink: 0,
+                                }}
+                              />
+                              <span style={{ fontWeight: 600, fontSize: "0.9rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                                {v.name}
+                              </span>
+                            </div>
+                            <div style={{ fontSize: "0.74rem", color: "var(--ink-faint)", marginTop: "2px" }}>
+                              {v.priceOverride ? `Custom Price: $${v.priceOverride}` : `Standard $${usdPrice}`} • {v.colorHex || "No hex"}
                             </div>
                           </div>
                         </div>
 
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        {/* Inline Image URL Input */}
+                        <div style={{ flex: "1 1 260px", display: "flex", alignItems: "center", gap: "6px" }}>
+                          <input
+                            type="url"
+                            placeholder="Variant Image URL (https://...)"
+                            className="form-input"
+                            style={{ fontSize: "0.78rem", padding: "6px 8px", height: "34px" }}
+                            value={v.image || ""}
+                            onChange={(e) => handleUpdateVariantImage(v.id, e.target.value)}
+                          />
+                        </div>
+
+                        {/* Actions: Stock Toggle & Delete */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                           <button
                             type="button"
                             onClick={() => handleVariantStockToggle(v.id, v.stockStatus)}
                             className={`status-pill ${v.stockStatus === 'IN_STOCK' ? 'status-in-stock' : 'status-out-of-stock'}`}
-                            style={{ cursor: "pointer", border: "none" }}
+                            style={{ cursor: "pointer", border: "none", fontSize: "0.72rem", padding: "4px 8px" }}
+                            title="Click to toggle stock status"
                           >
                             {v.stockStatus === 'IN_STOCK' ? 'In Stock' : 'Out of Stock'}
                           </button>
                           <button
                             type="button"
                             onClick={() => handleRemoveVariant(v.id)}
-                            style={{ background: "none", border: "none", color: "#EF4444", cursor: "pointer", padding: "4px" }}
+                            style={{ background: "none", border: "none", color: "#EF4444", cursor: "pointer", padding: "6px" }}
+                            title="Remove variant"
                           >
-                            <Trash2 size={14} />
+                            <Trash2 size={15} />
                           </button>
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  {/* ADD VARIANT FORM */}
-                  <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr auto", gap: "8px", alignItems: "end" }}>
-                    <div className="form-group">
-                      <label style={{ fontSize: "0.75rem", color: "var(--ink-soft)" }}>Variant Name</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Blush Sand / Matte White"
-                        className="form-input"
-                        value={newVariantName}
-                        onChange={(e) => setNewVariantName(e.target.value)}
-                      />
+                  {/* ADD NEW VARIANT FORM */}
+                  <div style={{ background: "#FFFFFF", padding: "14px", borderRadius: "10px", border: "1px dashed rgba(43,38,34,0.18)" }}>
+                    <div style={{ fontSize: "0.82rem", fontWeight: 700, marginBottom: "10px", color: "var(--ink)" }}>
+                      + Add New Variant with Separate Image
                     </div>
-                    <div className="form-group">
-                      <label style={{ fontSize: "0.75rem", color: "var(--ink-soft)" }}>Color Hex</label>
-                      <input
-                        type="text"
-                        placeholder="#D6C4AE"
-                        className="form-input"
-                        value={newVariantHex}
-                        onChange={(e) => setNewVariantHex(e.target.value)}
-                      />
+
+                    <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "10px", marginBottom: "10px" }}>
+                      <div className="form-group" style={{ margin: 0 }}>
+                        <label style={{ fontSize: "0.75rem", color: "var(--ink-soft)" }}>Variant Tone / Name *</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Terracotta Clay / Charcoal"
+                          className="form-input"
+                          value={newVariantName}
+                          onChange={(e) => setNewVariantName(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="form-group" style={{ margin: 0 }}>
+                        <label style={{ fontSize: "0.75rem", color: "var(--ink-soft)" }}>Color Hex</label>
+                        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                          <input
+                            type="color"
+                            value={newVariantHex}
+                            onChange={(e) => setNewVariantHex(e.target.value)}
+                            style={{ width: "32px", height: "38px", padding: 0, border: "none", borderRadius: "6px", cursor: "pointer", background: "none" }}
+                          />
+                          <input
+                            type="text"
+                            placeholder="#C1704E"
+                            className="form-input"
+                            style={{ fontSize: "0.8rem", padding: "6px 8px" }}
+                            value={newVariantHex}
+                            onChange={(e) => setNewVariantHex(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="form-group" style={{ margin: 0 }}>
+                        <label style={{ fontSize: "0.75rem", color: "var(--ink-soft)" }}>Price Override ($)</label>
+                        <input
+                          type="number"
+                          placeholder={`$${usdPrice}`}
+                          className="form-input"
+                          value={newVariantPrice ?? ""}
+                          onChange={(e) => setNewVariantPrice(e.target.value ? Number(e.target.value) : null)}
+                          min={0}
+                        />
+                      </div>
+
+                      <div className="form-group" style={{ margin: 0 }}>
+                        <label style={{ fontSize: "0.75rem", color: "var(--ink-soft)" }}>Stock Status</label>
+                        <select
+                          className="form-select"
+                          value={newVariantStatus}
+                          onChange={(e) => setNewVariantStatus(e.target.value)}
+                        >
+                          <option value="IN_STOCK">In Stock</option>
+                          <option value="OUT_OF_STOCK">Out of Stock</option>
+                        </select>
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <label style={{ fontSize: "0.75rem", color: "var(--ink-soft)" }}>Stock</label>
-                      <select
-                        className="form-select"
-                        value={newVariantStatus}
-                        onChange={(e) => setNewVariantStatus(e.target.value)}
+
+                    {/* Variant Image URL input */}
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                      <div style={{ flex: 1 }}>
+                        <input
+                          type="url"
+                          placeholder="Variant Image URL (e.g. https://ik.imagekit.io/.../terracotta.jpg)"
+                          className="form-input"
+                          value={newVariantImage}
+                          onChange={(e) => setNewVariantImage(e.target.value)}
+                        />
+                      </div>
+
+                      {newVariantImage.trim() && (
+                        <div
+                          style={{
+                            width: "38px",
+                            height: "38px",
+                            borderRadius: "6px",
+                            overflow: "hidden",
+                            border: "1px solid rgba(0,0,0,0.1)",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <img
+                            src={newVariantImage.trim()}
+                            alt="Preview"
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            onError={(e) => (e.currentTarget.style.display = "none")}
+                          />
+                        </div>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={handleAddVariant}
+                        disabled={!newVariantName.trim()}
+                        className="admin-btn admin-btn-secondary"
+                        style={{ height: "40px", padding: "0 16px", whiteSpace: "nowrap" }}
                       >
-                        <option value="IN_STOCK">In Stock</option>
-                        <option value="OUT_OF_STOCK">Out of Stock</option>
-                      </select>
+                        <Plus size={14} /> Add Variant
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleAddVariant}
-                      className="admin-btn admin-btn-secondary"
-                      style={{ height: "42px" }}
-                    >
-                      <Plus size={14} /> Add Variant
-                    </button>
                   </div>
                 </div>
 

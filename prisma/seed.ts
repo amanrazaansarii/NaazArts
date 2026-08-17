@@ -37,7 +37,9 @@ async function main() {
     };
 
     // Rich variants
-    const variants = prod.colors
+    const variants = prod.variants && prod.variants.length > 0
+      ? prod.variants
+      : prod.colors
       ? prod.colors.map((c, idx) => ({
           id: `var-${prod.id}-${idx + 1}`,
           name: c.name,
@@ -45,7 +47,7 @@ async function main() {
           swatchVar: c.swatchVar,
           stockStatus: 'IN_STOCK',
           priceOverride: null,
-          image: imagesGallery[idx % imagesGallery.length],
+          image: c.image || imagesGallery[idx % imagesGallery.length],
         }))
       : [
           {
