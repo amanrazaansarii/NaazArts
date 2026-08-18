@@ -61,17 +61,17 @@ export const validatePromoSchema = z.object({
 // Admin Product Schema
 export const productSchema = z.object({
   id: z.string().optional(),
-  slug: z.string().min(2, 'Slug is required'),
-  name: z.string().min(2, 'Product name is required'),
-  categoryName: z.string().min(1, 'Category is required'),
-  price: z.string().default('$28'),
-  priceValue: z.number().min(0),
+  slug: z.string().optional(),
+  name: z.string().min(1, 'Product name is required'),
+  categoryName: z.string().default('Premium trays'),
+  price: z.string().optional(),
+  priceValue: z.number().default(28),
   swatch: z.string().default('var(--tone-1)'),
   badge: z.string().optional().nullable(),
   image: z.string().optional().nullable(),
   images: z.array(z.string()).optional(),
   prices: z.record(z.string(), z.number()).optional(), // { USD: 28, INR: 2299, EUR: 26, GBP: 22 }
-  description: z.string().min(5, 'Description is required'),
+  description: z.string().default(''),
   details: z.array(z.string()).default([]),
   dimensions: z.string().default('8.25" L x 4.5" W'),
   weight: z.string().default('420g'),
@@ -81,21 +81,8 @@ export const productSchema = z.object({
   leadTime: z.string().default('Dispatched in 2-3 studio days'),
   collection: z.string().optional().nullable(),
   productType: z.string().optional().nullable(),
-  colors: z.array(z.object({
-    name: z.string(),
-    hex: z.string(),
-    swatchVar: z.string(),
-  })).optional().nullable(),
-  variants: z.array(z.object({
-    id: z.string(),
-    name: z.string(),
-    colorHex: z.string().optional(),
-    swatchVar: z.string().optional(),
-    stockStatus: z.string().default('IN_STOCK'),
-    priceOverride: z.number().optional().nullable(),
-    image: z.string().optional().nullable(),
-    images: z.array(z.string()).optional(),
-  })).optional(),
+  colors: z.any().optional().nullable(),
+  variants: z.any().optional().nullable(),
 });
 
 // Admin Order Status Update Schema

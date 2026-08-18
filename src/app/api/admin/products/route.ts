@@ -129,41 +129,58 @@ export async function POST(req: Request) {
     }
 
     const data = validated.data;
-    const slug = data.slug.toLowerCase().replace(/[^a-z0-9-]/g, '-');
-    const id = data.id || `prod-${Date.now()}`;
+    let baseSlug = (data.slug || data.name || `piece-${Date.now()}`)
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    if (!baseSlug) baseSlug = `piece-${Date.now()}`;
+
+    // Ensure unique slug
+    let uniqueSlug = baseSlug;
+    let counter = 1;
+    while (await prisma.product.findUnique({ where: { slug: uniqueSlug } })) {
+      uniqueSlug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+
+    const id = data.id || `prod-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const categoryName = data.categoryName || 'Premium trays';
 
     // Ensure category exists
     await prisma.category.upsert({
-      where: { name: data.categoryName },
+      where: { name: categoryName },
       update: {},
-      create: { name: data.categoryName },
+      create: { name: categoryName },
     });
 
     const primaryImage = data.image || (data.images && data.images.length > 0 ? data.images[0] : null);
+    const numPrice = Number(data.priceValue || 28);
 
     const newProduct = await prisma.product.create({
       data: {
         id,
-        slug,
+        slug: uniqueSlug,
         name: data.name,
-        categoryName: data.categoryName,
-        collection: data.collection || null,
-        productType: data.productType || null,
-        price: data.price || `$${data.priceValue}`,
-        priceValue: data.priceValue,
+        categoryName,
+        collection: data.collection || 'Premium jars & trays',
+        productType: data.productType || categoryName || 'Premium Trays',
+        price: data.price || `$${numPrice}`,
+        priceValue: numPrice,
         swatch: data.swatch || 'var(--tone-1)',
         badge: data.badge || null,
         image: primaryImage,
-        images: data.images ? JSON.stringify(data.images) : JSON.stringify(primaryImage ? [primaryImage] : []),
-        prices: data.prices ? JSON.stringify(data.prices) : JSON.stringify({ USD: data.priceValue, INR: Math.round(data.priceValue * 82) }),
-        description: data.description,
-        details: JSON.stringify(data.details || []),
-        dimensions: data.dimensions,
-        weight: data.weight,
+        images: JSON.stringify(data.images || (primaryImage ? [primaryImage] : [])),
+        prices: JSON.stringify(data.prices || { USD: numPrice, INR: Math.round(numPrice * 82), EUR: Math.round(numPrice * 0.92), GBP: Math.round(numPrice * 0.79) }),
+        description: data.description || 'Handcrafted artisanal concrete piece from Naaz Arts Studio.',
+        details: JSON.stringify(data.details && data.details.length > 0 ? data.details : ['Hand-cast mineral concrete', 'Natural protective beeswax sealant', 'Protective scratch-resistant base pads']),
+        dimensions: data.dimensions || '8.25" L x 4.5" W',
+        weight: data.weight || '420g',
         inStock: data.stockStatus !== 'OUT_OF_STOCK' && data.stockStatus !== 'UNAVAILABLE',
-        stockStatus: data.stockStatus,
-        productionStatus: data.productionStatus,
-        leadTime: data.leadTime,
+        stockStatus: data.stockStatus || 'IN_STOCK',
+        productionStatus: data.productionStatus || 'READY',
+        leadTime: data.leadTime || 'Dispatched in 2-3 studio days',
         colors: data.colors ? JSON.stringify(data.colors) : null,
         variants: data.variants ? JSON.stringify(data.variants) : null,
       },
@@ -172,6 +189,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, product: newProduct });
   } catch (error: any) {
     console.error('[API] Admin create product error:', error);
-    return NextResponse.json({ error: 'Failed to create product. Slug may already exist.' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to create product.' }, { status: 500 });
   }
 }

@@ -34,7 +34,7 @@ export function ShopCatalog() {
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [activeQuery, setActiveQuery] = useState(queryParam);
   const [addedKey, setAddedKey] = useState<string | null>(null);
-  const [productsList, setProductsList] = useState<Product[]>(PRODUCTS);
+  const [productsList, setProductsList] = useState<Product[]>([]);
   const addItem = useCartStore((state) => state.addItem);
 
   // Fetch updated catalog from API if available
@@ -42,7 +42,7 @@ export function ShopCatalog() {
     fetch("/api/products")
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data?.products && Array.isArray(data.products) && data.products.length > 0) {
+        if (data?.products && Array.isArray(data.products)) {
           setProductsList(data.products);
         }
       })

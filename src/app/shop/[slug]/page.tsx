@@ -1,11 +1,108 @@
 import Link from "next/link";
-import { getProductBySlug, getRelatedProducts, PRODUCTS } from "@/data/products";
+import { prisma } from "@/lib/prisma";
+import { getProductBySlug, getRelatedProducts, PRODUCTS, Product } from "@/data/products";
 import { ProductDetailClient } from "./ProductDetailClient";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return PRODUCTS.map((product) => ({
     slug: product.slug,
   }));
+}
+
+async function getLiveProduct(slug: string): Promise<{ product: Product | null; related: Product[] }> {
+  try {
+    const dbProduct = await prisma.product.findUnique({
+      where: { slug },
+    });
+
+    if (dbProduct) {
+      let images: string[] = [];
+      let prices: Record<string, number> = { USD: dbProduct.priceValue };
+      let details: string[] = [];
+      let colors: any[] = [];
+      let variants: any[] = [];
+
+      try {
+        if (dbProduct.images) images = JSON.parse(dbProduct.images);
+        else if (dbProduct.image) images = [dbProduct.image];
+      } catch {}
+
+      try {
+        if (dbProduct.prices) prices = JSON.parse(dbProduct.prices);
+      } catch {}
+
+      try {
+        if (dbProduct.details) details = JSON.parse(dbProduct.details);
+      } catch {}
+
+      try {
+        if (dbProduct.colors) colors = JSON.parse(dbProduct.colors);
+      } catch {}
+
+      try {
+        if (dbProduct.variants) variants = JSON.parse(dbProduct.variants);
+      } catch {}
+
+      const product: Product = {
+        id: dbProduct.id,
+        slug: dbProduct.slug,
+        name: dbProduct.name,
+        category: dbProduct.categoryName as any,
+        collection: dbProduct.collection || undefined,
+        productType: dbProduct.productType || undefined,
+        price: dbProduct.price,
+        priceValue: dbProduct.priceValue,
+        swatch: dbProduct.swatch,
+        badge: (dbProduct.badge as "new" | "limited") || undefined,
+        image: dbProduct.image || (images.length > 0 ? images[0] : undefined),
+        images,
+        prices,
+        description: dbProduct.description,
+        details: details.length > 0 ? details : ["Handcrafted mineral concrete", "Protective beeswax sealant", "Felt base pads attached"],
+        dimensions: dbProduct.dimensions,
+        weight: dbProduct.weight,
+        inStock: dbProduct.inStock,
+        stockStatus: dbProduct.stockStatus,
+        productionStatus: dbProduct.productionStatus,
+        leadTime: dbProduct.leadTime,
+        colors: colors.length > 0 ? colors : undefined,
+        variants: variants.length > 0 ? variants : undefined,
+      };
+
+      const dbRelated = await prisma.product.findMany({
+        where: { slug: { not: slug } },
+        take: 4,
+      });
+
+      const related: Product[] = dbRelated.map((r) => ({
+        id: r.id,
+        slug: r.slug,
+        name: r.name,
+        category: r.categoryName as any,
+        price: r.price,
+        priceValue: r.priceValue,
+        swatch: r.swatch,
+        badge: (r.badge as any) || undefined,
+        image: r.image || undefined,
+        description: r.description,
+        details: [],
+        dimensions: r.dimensions,
+        weight: r.weight,
+        inStock: r.inStock,
+        leadTime: r.leadTime,
+      }));
+
+      return { product, related };
+    }
+  } catch (error) {
+    console.error("[Product Detail] Error querying DB:", error);
+  }
+
+  const staticProduct = getProductBySlug(slug);
+  const staticRelated = getRelatedProducts(slug, 4);
+  return { product: staticProduct || null, related: staticRelated };
 }
 
 export async function generateMetadata({
@@ -14,7 +111,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const { product } = await getLiveProduct(slug);
 
   if (!product) {
     return {
@@ -34,7 +131,7 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const { product, related } = await getLiveProduct(slug);
 
   if (!product) {
     return (
@@ -50,8 +147,6 @@ export default async function ProductPage({
       </div>
     );
   }
-
-  const related = getRelatedProducts(slug, 4);
 
   return (
     <div className="product-page-root">

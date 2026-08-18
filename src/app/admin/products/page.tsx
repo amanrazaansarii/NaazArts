@@ -286,37 +286,46 @@ export default function AdminProductsPage() {
     setSaving(true);
     setMessage(null);
 
-    const finalCollection = collection === "Custom..." ? customCollection.trim() : collection;
-    const finalProductType = productType === "Custom..." ? customProductType.trim() : productType;
-
-    const payload = {
-      name,
-      slug: slug || name.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-      categoryName,
-      collection: finalCollection || "Premium jars & trays",
-      productType: finalProductType || "Premium Trays",
-      price: `$${usdPrice}`,
-      priceValue: Number(usdPrice),
-      prices: {
-        USD: Number(usdPrice),
-        INR: Number(inrPrice),
-        EUR: Number(eurPrice),
-        GBP: Number(gbpPrice),
-      },
-      image: images.length > 0 ? images[0] : null,
-      images,
-      description,
-      leadTime,
-      dimensions,
-      weight,
-      badge: badge || null,
-      stockStatus,
-      inStock: stockStatus === "IN_STOCK",
-      productionStatus,
-      variants,
-    };
-
     try {
+      if (!name.trim()) {
+        throw new Error("Please enter a product name.");
+      }
+
+      const finalSlug = (slug.trim() || name.trim())
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+      const finalCollection = collection === "Custom..." ? customCollection.trim() || "Artisan Drops" : collection;
+      const finalProductType = productType === "Custom..." ? customProductType.trim() || categoryName : productType;
+
+      const payload = {
+        name: name.trim(),
+        slug: finalSlug || `piece-${Date.now()}`,
+        categoryName: categoryName || "Premium trays",
+        collection: finalCollection || "Premium jars & trays",
+        productType: finalProductType || "Premium Trays",
+        price: `$${usdPrice || 28}`,
+        priceValue: Number(usdPrice || 28),
+        prices: {
+          USD: Number(usdPrice || 28),
+          INR: Number(inrPrice || Math.round((usdPrice || 28) * 82)),
+          EUR: Number(eurPrice || Math.round((usdPrice || 28) * 0.92)),
+          GBP: Number(gbpPrice || Math.round((usdPrice || 28) * 0.79)),
+        },
+        image: images.length > 0 ? images[0] : null,
+        images: images.length > 0 ? images : [],
+        description: description.trim() || "Handcrafted artisanal concrete piece from Naaz Arts Studio.",
+        leadTime: leadTime || "Dispatched in 2-3 studio days",
+        dimensions: dimensions || '8.25" L x 4.5" W',
+        weight: weight || "420g",
+        badge: badge || null,
+        stockStatus: stockStatus || "IN_STOCK",
+        inStock: stockStatus === "IN_STOCK",
+        productionStatus: productionStatus || "READY",
+        variants: variants && variants.length > 0 ? variants : [],
+      };
+
       const url = modalMode === "create" ? "/api/admin/products" : `/api/admin/products/${currentId}`;
       const method = modalMode === "create" ? "POST" : "PUT";
 
@@ -331,13 +340,14 @@ export default function AdminProductsPage() {
         throw new Error(data.error || "Failed to save product");
       }
 
-      setMessage({ text: "Product saved successfully! Catalog updated.", type: "success" });
+      setMessage({ text: modalMode === "create" ? "Product created successfully! Studio catalog updated." : "Product updated successfully!", type: "success" });
       setTimeout(() => {
         setIsModalOpen(false);
         fetchProducts();
-      }, 1000);
+      }, 800);
     } catch (err: any) {
-      setMessage({ text: err.message || "An error occurred while saving", type: "error" });
+      console.error("Save product error:", err);
+      setMessage({ text: err.message || "An error occurred while saving product", type: "error" });
     } finally {
       setSaving(false);
     }
@@ -661,20 +671,24 @@ export default function AdminProductsPage() {
                       className="form-input"
                       placeholder="e.g. Marble tray — sage"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        setName(e.target.value);
+                        if (modalMode === "create") {
+                          setSlug(e.target.value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-"));
+                        }
+                      }}
                       required
                     />
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">URL Slug *</label>
+                    <label className="form-label">URL Slug</label>
                     <input
                       type="text"
                       className="form-input"
-                      placeholder="e.g. marble-tray-sage"
+                      placeholder="Auto-generated from name"
                       value={slug}
                       onChange={(e) => setSlug(e.target.value)}
-                      required
                     />
                   </div>
                 </div>
@@ -703,7 +717,6 @@ export default function AdminProductsPage() {
                         style={{ marginTop: "6px", fontSize: "0.82rem" }}
                         value={customCollection}
                         onChange={(e) => setCustomCollection(e.target.value)}
-                        required
                       />
                     )}
                   </div>
@@ -730,7 +743,6 @@ export default function AdminProductsPage() {
                         style={{ marginTop: "6px", fontSize: "0.82rem" }}
                         value={customProductType}
                         onChange={(e) => setCustomProductType(e.target.value)}
-                        required
                       />
                     )}
                   </div>

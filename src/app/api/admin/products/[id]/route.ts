@@ -108,38 +108,41 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
+    const categoryName = data.categoryName || existing.categoryName || 'Premium trays';
+
     // Ensure category exists
     await prisma.category.upsert({
-      where: { name: data.categoryName },
+      where: { name: categoryName },
       update: {},
-      create: { name: data.categoryName },
+      create: { name: categoryName },
     });
 
     const primaryImage = data.image || (data.images && data.images.length > 0 ? data.images[0] : existing.image);
+    const numPrice = Number(data.priceValue !== undefined ? data.priceValue : existing.priceValue);
 
     const updated = await prisma.product.update({
       where: { id },
       data: {
-        name: data.name,
-        slug: data.slug,
-        categoryName: data.categoryName,
-        collection: data.collection || null,
-        productType: data.productType || null,
-        price: data.price || `$${data.priceValue}`,
-        priceValue: data.priceValue,
-        swatch: data.swatch,
-        badge: data.badge || null,
+        name: data.name || existing.name,
+        slug: data.slug || existing.slug,
+        categoryName,
+        collection: data.collection || existing.collection,
+        productType: data.productType || existing.productType,
+        price: data.price || `$${numPrice}`,
+        priceValue: numPrice,
+        swatch: data.swatch || existing.swatch,
+        badge: data.badge !== undefined ? data.badge : existing.badge,
         image: primaryImage,
         images: data.images ? JSON.stringify(data.images) : existing.images,
         prices: data.prices ? JSON.stringify(data.prices) : existing.prices,
-        description: data.description,
-        details: JSON.stringify(data.details || []),
-        dimensions: data.dimensions,
-        weight: data.weight,
-        inStock: data.stockStatus !== 'OUT_OF_STOCK' && data.stockStatus !== 'UNAVAILABLE',
-        stockStatus: data.stockStatus,
-        productionStatus: data.productionStatus,
-        leadTime: data.leadTime,
+        description: data.description !== undefined ? data.description : existing.description,
+        details: JSON.stringify(data.details && data.details.length > 0 ? data.details : ['Hand-cast mineral concrete', 'Natural protective beeswax sealant', 'Protective scratch-resistant base pads']),
+        dimensions: data.dimensions || existing.dimensions,
+        weight: data.weight || existing.weight,
+        inStock: data.stockStatus ? (data.stockStatus !== 'OUT_OF_STOCK' && data.stockStatus !== 'UNAVAILABLE') : existing.inStock,
+        stockStatus: data.stockStatus || existing.stockStatus,
+        productionStatus: data.productionStatus || existing.productionStatus,
+        leadTime: data.leadTime || existing.leadTime,
         colors: data.colors ? JSON.stringify(data.colors) : existing.colors,
         variants: data.variants ? JSON.stringify(data.variants) : existing.variants,
       },
@@ -148,7 +151,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
     return NextResponse.json({ success: true, product: updated });
   } catch (error: any) {
     console.error('[API] Admin update product error:', error);
-    return NextResponse.json({ error: 'Failed to update product' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Failed to update product' }, { status: 500 });
   }
 }
 

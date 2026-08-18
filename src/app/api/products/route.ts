@@ -12,13 +12,23 @@ export async function GET(req: Request) {
 
     // Query from Prisma
     let dbProducts = await prisma.product.findMany({
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: 'desc' },
     });
 
-    let products: Product[];
+    let products: Product[] = dbProducts.map((p) => {
+      let images: string[] = [];
+      let details: string[] = [];
+      let colors: any[] = [];
+      let variants: any[] = [];
+      let prices: Record<string, number> | undefined = undefined;
 
-    if (dbProducts && dbProducts.length > 0) {
-      products = dbProducts.map((p) => ({
+      try { if (p.images) images = JSON.parse(p.images); else if (p.image) images = [p.image]; } catch {}
+      try { if (p.prices) prices = JSON.parse(p.prices); } catch {}
+      try { if (p.details) details = JSON.parse(p.details); } catch {}
+      try { if (p.colors) colors = JSON.parse(p.colors); } catch {}
+      try { if (p.variants) variants = JSON.parse(p.variants); } catch {}
+
+      return {
         id: p.id,
         slug: p.slug,
         name: p.name,
@@ -29,24 +39,21 @@ export async function GET(req: Request) {
         priceValue: p.priceValue,
         swatch: p.swatch,
         badge: (p.badge as 'new' | 'limited') || undefined,
-        image: p.image || undefined,
-        images: p.images ? JSON.parse(p.images) : p.image ? [p.image] : [],
-        prices: p.prices ? JSON.parse(p.prices) : undefined,
+        image: p.image || (images.length > 0 ? images[0] : undefined),
+        images,
+        prices,
         description: p.description,
-        details: p.details ? JSON.parse(p.details) : [],
+        details,
         dimensions: p.dimensions,
         weight: p.weight,
         inStock: p.inStock,
         stockStatus: p.stockStatus,
         productionStatus: p.productionStatus,
         leadTime: p.leadTime,
-        colors: p.colors ? JSON.parse(p.colors) : undefined,
-        variants: p.variants ? JSON.parse(p.variants) : undefined,
-      }));
-    } else {
-      // Fallback
-      products = PRODUCTS;
-    }
+        colors: colors.length > 0 ? colors : undefined,
+        variants: variants.length > 0 ? variants : undefined,
+      };
+    });
 
     // Filter
     if (category && category !== 'All') {
