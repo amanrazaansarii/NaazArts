@@ -141,22 +141,19 @@ export default function AdminProductsPage() {
     setBadge("");
     setStockStatus("IN_STOCK");
     setProductionStatus("READY");
-    setImages(["https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780"]);
+    setImages([]);
     setNewImageUrl("");
     setUsdPrice(28);
     setInrPrice(2299);
     setEurPrice(26);
     setGbpPrice(22);
     setNewVariantName("");
-    setNewVariantHex("#A8B29A");
+    setNewVariantHex("#C1704E");
     setNewVariantStatus("IN_STOCK");
     setNewVariantPrice(null);
     setNewVariantImage("");
     setEditingVariantId(null);
-    setVariants([
-      { id: "var-1", name: "Sage Mist", colorHex: "#A8B29A", swatchVar: "var(--tone-1)", stockStatus: "IN_STOCK", image: "https://ik.imagekit.io/naazartstudio/IMG_6856.jpeg?updatedAt=1786806284780" },
-      { id: "var-2", name: "Terracotta Clay", colorHex: "#C1704E", swatchVar: "var(--tone-2)", stockStatus: "IN_STOCK", image: "https://ik.imagekit.io/naazartstudio/IMG_8148.png?updatedAt=1786806300638" },
-    ]);
+    setVariants([]);
     setIsModalOpen(true);
     setMessage(null);
   };
@@ -281,8 +278,8 @@ export default function AdminProductsPage() {
     );
   };
 
-  const handleSaveProduct = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSaveProduct = async (e?: React.FormEvent | React.MouseEvent) => {
+    if (e && e.preventDefault) e.preventDefault();
     setSaving(true);
     setMessage(null);
 
@@ -299,6 +296,25 @@ export default function AdminProductsPage() {
       const finalCollection = collection === "Custom..." ? customCollection.trim() || "Artisan Drops" : collection;
       const finalProductType = productType === "Custom..." ? customProductType.trim() || categoryName : productType;
 
+      let finalImages = [...images];
+      if (newImageUrl.trim() && !finalImages.includes(newImageUrl.trim())) {
+        finalImages.push(newImageUrl.trim());
+      }
+
+      let finalVariants = [...(variants || [])];
+      if (newVariantName.trim()) {
+        finalVariants.push({
+          id: `var-${Date.now()}`,
+          name: newVariantName.trim(),
+          colorHex: newVariantHex || "#C1704E",
+          swatchVar: "var(--clay)",
+          stockStatus: newVariantStatus || "IN_STOCK",
+          priceOverride: newVariantPrice ? Number(newVariantPrice) : null,
+          image: newVariantImage.trim() || null,
+          images: newVariantImage.trim() ? [newVariantImage.trim()] : [],
+        });
+      }
+
       const payload = {
         name: name.trim(),
         slug: finalSlug || `piece-${Date.now()}`,
@@ -313,8 +329,8 @@ export default function AdminProductsPage() {
           EUR: Number(eurPrice || Math.round((usdPrice || 28) * 0.92)),
           GBP: Number(gbpPrice || Math.round((usdPrice || 28) * 0.79)),
         },
-        image: images.length > 0 ? images[0] : null,
-        images: images.length > 0 ? images : [],
+        image: finalImages.length > 0 ? finalImages[0] : null,
+        images: finalImages,
         description: description.trim() || "Handcrafted artisanal concrete piece from Naaz Arts Studio.",
         leadTime: leadTime || "Dispatched in 2-3 studio days",
         dimensions: dimensions || '8.25" L x 4.5" W',
@@ -323,7 +339,7 @@ export default function AdminProductsPage() {
         stockStatus: stockStatus || "IN_STOCK",
         inStock: stockStatus === "IN_STOCK",
         productionStatus: productionStatus || "READY",
-        variants: variants && variants.length > 0 ? variants : [],
+        variants: finalVariants,
       };
 
       const url = modalMode === "create" ? "/api/admin/products" : `/api/admin/products/${currentId}`;
@@ -344,7 +360,7 @@ export default function AdminProductsPage() {
       setTimeout(() => {
         setIsModalOpen(false);
         fetchProducts();
-      }, 800);
+      }, 700);
     } catch (err: any) {
       console.error("Save product error:", err);
       setMessage({ text: err.message || "An error occurred while saving product", type: "error" });
@@ -645,7 +661,7 @@ export default function AdminProductsPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSaveProduct}>
+            <form noValidate onSubmit={handleSaveProduct}>
               <div className="admin-modal-body">
                 {message && (
                   <div
@@ -848,8 +864,8 @@ export default function AdminProductsPage() {
                   {/* ADD NEW IMAGE LINK INPUT */}
                   <div style={{ display: "flex", gap: "8px" }}>
                     <input
-                      type="url"
-                      placeholder="Paste image link URL (e.g. https://ik.imagekit.io/... or CDN link)"
+                      type="text"
+                      placeholder="Paste image link URL (e.g. https://... or CDN link)"
                       className="form-input"
                       value={newImageUrl}
                       onChange={(e) => setNewImageUrl(e.target.value)}
@@ -1002,7 +1018,7 @@ export default function AdminProductsPage() {
                         {/* Inline Image URL Input */}
                         <div style={{ flex: "1 1 260px", display: "flex", alignItems: "center", gap: "6px" }}>
                           <input
-                            type="url"
+                            type="text"
                             placeholder="Variant Image URL (https://...)"
                             className="form-input"
                             style={{ fontSize: "0.78rem", padding: "6px 8px", height: "34px" }}
@@ -1102,8 +1118,8 @@ export default function AdminProductsPage() {
                     <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
                       <div style={{ flex: 1 }}>
                         <input
-                          type="url"
-                          placeholder="Variant Image URL (e.g. https://ik.imagekit.io/.../terracotta.jpg)"
+                          type="text"
+                          placeholder="Variant Image URL (e.g. https://.../terracotta.jpg)"
                           className="form-input"
                           value={newVariantImage}
                           onChange={(e) => setNewVariantImage(e.target.value)}
@@ -1187,21 +1203,43 @@ export default function AdminProductsPage() {
                 </div>
               </div>
 
-              <div className="admin-modal-footer">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="admin-btn admin-btn-outline"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="admin-btn admin-btn-primary"
-                >
-                  {saving ? "Saving Changes..." : modalMode === "create" ? "Create Product" : "Update Product & Variants"}
-                </button>
+              <div className="admin-modal-footer" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                <div style={{ flex: "1 1 200px" }}>
+                  {message && (
+                    <div
+                      style={{
+                        padding: "8px 12px",
+                        borderRadius: "6px",
+                        fontSize: "0.82rem",
+                        background: message.type === "success" ? "var(--sage-tint)" : "#FEE2E2",
+                        color: message.type === "success" ? "var(--sage-deep)" : "#991B1B",
+                        border: `1px solid ${message.type === "success" ? "var(--sage)" : "#FCA5A5"}`,
+                        fontWeight: 500,
+                      }}
+                    >
+                      {message.text}
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="admin-btn admin-btn-outline"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={handleSaveProduct}
+                    disabled={saving}
+                    className="admin-btn admin-btn-primary"
+                    style={{ minWidth: "160px", justifyContent: "center" }}
+                  >
+                    {saving ? "Saving Changes..." : modalMode === "create" ? "Create Product" : "Update Product & Variants"}
+                  </button>
+                </div>
               </div>
             </form>
           </div>
