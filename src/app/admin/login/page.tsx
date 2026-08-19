@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShieldCheck, ArrowRight, Sparkles, Lock, Mail } from "lucide-react";
+import { ShieldCheck, ArrowRight, Lock, Mail } from "lucide-react";
 import "../admin.css";
 
 export default function AdminLoginPage() {
@@ -37,11 +37,6 @@ export default function AdminLoginPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleFillDemo = () => {
-    setEmail("creativenaaz.business@gmail.com");
-    setPassword("StudioMaster2026!");
   };
 
   return (
@@ -154,22 +149,10 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        {/* 1-CLICK QUICK ACCESS DEMO HELPER */}
         <div style={{ marginTop: "24px", paddingTop: "18px", borderTop: "1px solid rgba(43,38,34,0.08)", textAlign: "center" }}>
-          <button
-            type="button"
-            onClick={handleFillDemo}
-            className="admin-btn admin-btn-secondary"
-            style={{ width: "100%", fontSize: "0.82rem", padding: "8px" }}
-          >
-            <Sparkles size={14} color="var(--clay)" /> Fill Master Key Credentials
-          </button>
-
-          <div style={{ marginTop: "14px" }}>
-            <Link href="/" style={{ fontSize: "0.8rem", color: "var(--ink-soft)", textDecoration: "none" }}>
-              ← Return to public storefront
-            </Link>
-          </div>
+          <Link href="/" style={{ fontSize: "0.85rem", color: "var(--ink-soft)", textDecoration: "none" }}>
+            ← Return to public storefront
+          </Link>
         </div>
       </div>
     </div>

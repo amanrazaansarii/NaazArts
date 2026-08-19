@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowRight, Lock, UserCheck } from "lucide-react";
+import { ArrowRight, UserCheck } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 
 export default function LoginPage() {
@@ -70,16 +70,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = async () => {
-    setErrorMsg("");
-    const res = await login("patron@naazarts.com", "StudioPatron2026!");
-    if (res.success) {
-      router.push("/profile");
-    } else {
-      setErrorMsg(res.error || "Failed to sign in demo account.");
-    }
-  };
-
   return (
     <div className="auth-page-wrapper">
       <div className="container auth-container">
@@ -119,16 +109,6 @@ export default function LoginPage() {
                   Create Account
                 </button>
               </div>
-
-              {/* Demo 1-Click Login Helper */}
-              <button
-                type="button"
-                className="demo-login-banner"
-                onClick={handleDemoLogin}
-              >
-                <Sparkles size={16} />
-                <span>One-Click Demo Patron Sign In</span>
-              </button>
 
               <form onSubmit={handleSubmit} className="auth-form">
                 {mode === "signup" && (

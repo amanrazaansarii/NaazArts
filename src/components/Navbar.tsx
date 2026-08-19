@@ -30,6 +30,11 @@ export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  // Hide storefront navbar in admin panel
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   // Drawer state
   const [drawerOpen, setDrawerOpen] = useState(false);
 
