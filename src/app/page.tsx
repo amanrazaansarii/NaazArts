@@ -117,7 +117,7 @@ export default function HomePage() {
         <div className="container story-split">
           <img
             src="https://ik.imagekit.io/naazartstudio/IMG_9594.jpeg?updatedAt=1786810792307"
-            alt="Naaz Arts story - Handmade candle and concrete vessel"
+            alt="Naaz Art Studio founder — handmade concrete and eco-resin vessels"
             className="organic-frame"
             width={340}
             height={340}
@@ -126,12 +126,12 @@ export default function HomePage() {
           <div>
             <span className="eyebrow">Our story</span>
             <h2 style={{ margin: "8px 0 12px" }}>
-              From a wedding gift to a whole new craft
+              The Evolution of the Canvas
             </h2>
             <p className="body-text" style={{ marginBottom: "14px" }}>
-              It started with a candle, made for a friend&apos;s wedding. Somewhere
-              between finding the right jar and falling back in love with
-              sculpture, this became something else entirely.
+              A fine-arts degree. Creative burnout. An accidental candle hobby.
+              And the moment eco resin changed everything — this is how Naaz Art
+              Studio was born from raw earth, concrete, and deep intention.
             </p>
             <Link
               href="/our-story"
@@ -142,6 +142,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
 
       {/* ============ BEST SELLERS ============ */}
       <section className="section">

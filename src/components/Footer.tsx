@@ -21,6 +21,7 @@ export function Footer() {
       <span>&copy; {year || "2026"} Naaz Arts</span>
       <span>
         <Link href="/contact">Wholesale</Link>
+        <Link href="/policies">Policies</Link>
         <Link href="/contact">FAQ</Link>
         <a
           href="https://instagram.com/shop.naazarts"
